@@ -37,16 +37,15 @@ const bottomNavigator = createBottomTabNavigator(
       }
     },
     Adicionar: {
-      screen: Menu,
+      screen: stackNavigator,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={addPost} style={{ width: 20, height: 20 }} />
         ),
-        tabBarVisible: false
       }
     },
     Trabalhos: {
-      screen: Menu,
+      screen: stackNavigator,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={books} style={{ width: 20, height: 20 }} />
@@ -55,7 +54,7 @@ const bottomNavigator = createBottomTabNavigator(
       }
     },
     Perfil: {
-      screen: Menu,
+      screen: stackNavigator,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={user} style={{ width: 20, height: 20 }} />

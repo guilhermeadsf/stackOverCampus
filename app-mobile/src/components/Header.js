@@ -32,7 +32,7 @@ export default function Header() {
             fontFamily: 'Roboto',
             fontSize: 22,
             marginTop: 15,
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Stack Over Campus
