@@ -10,8 +10,6 @@ import {
 } from 'react-native';
 import AuthInput from '../components/Authinput';
 import backgroundImage from '../../assets/imgs/Background2.png';
-// import googleLogin from '../../assets/imgs/btnGoogle.png';
-// import facebookLogin from '../../assets/imgs/btnFacebook.png';
 import { SocialIcon } from 'react-native-elements';
 
 export default class Auth extends Component {
@@ -119,7 +117,7 @@ export default class Auth extends Component {
           </Text>
         </TouchableOpacity>
 
-        <View style={{ width: '50%', flexDirection: 'column' }}>
+        <View style={{ width: 220, flexDirection: 'column' }}>
             <SocialIcon
               //Social Icon using react-native-elements
               button
@@ -148,35 +146,6 @@ export default class Auth extends Component {
               }}
             />
           </View>
-
-        {/* <View style={{ width: '50%', flexDirection: 'row' }}>
-          <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderColor: '#FFF',
-              marginRight: 10
-            }}
-          >
-            <Image
-              source={googleLogin}
-              style={{
-                width: 140,
-                height: 120,
-                resizeMode: 'contain'
-              }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={{ borderWidth: 1, borderColor: '#FFF' }}>
-            <Image
-              source={facebookLogin}
-              style={{
-                width: 140,
-                height: 120,
-                resizeMode: 'contain'
-              }}
-            />
-          </TouchableOpacity>
-        </View> */}
       </ImageBackground>
     );
   }
@@ -193,7 +162,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: 'Roboto',
     color: '#FFF',
-    fontSize: 50,
+    fontSize: 35,
     marginBottom: 50,
     fontWeight: 'bold',
     textShadowColor: '#000',
