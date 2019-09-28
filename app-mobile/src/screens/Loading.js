@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StatusBar } from 'react-native';
+import { connect } from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import imageData from '../../assets/imgs/data-collection.png';
 
-export default class Loading extends Component {
+class Loading extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     setTimeout(() => {
+      this.whyRouteGo();
+    }, 2000);
+  }
+
+  whyRouteGo() {
+    if (this.props.userState) {
+      this.props.navigation.navigate('Home');
+    } else {
       this.props.navigation.navigate('Auth');
-    }, 1500);
+    }
   }
 
   render() {
@@ -29,3 +38,12 @@ export default class Loading extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  userState: state.UserDataReducer.userState
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(Loading);
