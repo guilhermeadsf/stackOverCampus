@@ -12,7 +12,7 @@ export default class Loading extends Component {
   componentDidMount() {
     setTimeout(() => {
       this.props.navigation.navigate('Auth');
-    }, 2000);
+    }, 1500);
   }
 
   render() {
