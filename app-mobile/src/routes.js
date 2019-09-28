@@ -10,6 +10,7 @@ import home from '../assets/imgs/home.png';
 import user from '../assets/imgs/user.png';
 import books from '../assets/imgs/stackBooks.png';
 import Menu from './screens/Menu';
+import Loading from './screens/Loading';
 
 const stackNavigator = createStackNavigator(
   {
@@ -41,7 +42,7 @@ const bottomNavigator = createBottomTabNavigator(
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={addPost} style={{ width: 20, height: 20 }} />
-        ),
+        )
       }
     },
     Trabalhos: {
@@ -81,6 +82,9 @@ const bottomNavigator = createBottomTabNavigator(
 
 const switchNavigator = createSwitchNavigator(
   {
+    Loading: {
+      screen: Loading
+    },
     Auth: {
       screen: Auth
     },
@@ -89,7 +93,7 @@ const switchNavigator = createSwitchNavigator(
     }
   },
   {
-    initialRouteName: 'Auth'
+    initialRouteName: 'Loading'
   }
 );
 
