@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import Theme from '../components/theme';
 import Header from '../components/Header';
+import commonStyles from '../../commonStyles.js';
 import { connect } from 'react-redux';
 import { userLogout } from '../redux/actions/userDataActions';
 
@@ -59,8 +60,8 @@ class App extends React.Component {
   }
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ecf0f1' }}>
-        <Header />
+      <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
+        <Header title='Home' />
         <View style={{ flex: 9, marginTop: 20 }}>
           <FlatList
             data={dados} // Vai vim da API!

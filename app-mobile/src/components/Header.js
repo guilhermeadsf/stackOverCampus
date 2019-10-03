@@ -53,7 +53,7 @@ function Header(props) {
               fontWeight: '500'
             }}
           >
-            Stack Over Campus
+            {props.title}
           </Text>
         </View>
 
@@ -92,7 +92,9 @@ function Header(props) {
             fontWeight: '500'
           }}
         >
-          Stack Over Campus
+          {
+            props.title
+          }
         </Text>
       </View>
     </LinearGradient>

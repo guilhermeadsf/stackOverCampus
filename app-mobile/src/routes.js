@@ -11,6 +11,7 @@ import user from '../assets/imgs/user.png';
 import books from '../assets/imgs/stackBooks.png';
 import Menu from './screens/Menu';
 import Loading from './screens/Loading';
+import Profile from './screens/Profile';
 
 const stackNavigator = createStackNavigator(
   {
@@ -55,7 +56,7 @@ const bottomNavigator = createBottomTabNavigator(
       }
     },
     Perfil: {
-      screen: stackNavigator,
+      screen: Profile,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={user} style={{ width: 20, height: 20 }} />
