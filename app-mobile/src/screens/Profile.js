@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Header from '../components/Header';
+import H from '../components/Header';
 import commonStyles from '../../commonStyles.js';
 import {
     StyleSheet,
@@ -9,13 +9,17 @@ import {
     TouchableOpacity,
     StatusBar,
     Image
-} from 'react-native'
+} from 'react-native';
+
+import { ListItem, Separator } from 'native-base';
+
 
 export default class screens extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
-                <Header typeHeader={1} title='Perfil' />
+                <H typeHeader={1} title='Perfil' />
+
                 <View style={styles.cardsProfile}>
                     <View style={styles.viewLogoName}>
                         <Text style={styles.avatarName}>
@@ -26,6 +30,34 @@ export default class screens extends Component {
                         Lucas Vieira Urquiza
                     </Text>
                 </View>
+
+                <View style={styles.cardsProfile}>
+                    <Separator bordered style={styles.separatorHeaderStyle}>
+                        <Text style={styles.separatorItemStyle}>Nome</Text>
+                    </Separator>
+                    <ListItem style={styles.separatorListItemStyle}>
+                        <Text style={styles.textSeparatorStyle}>Lucas Vieira Urquiza</Text>
+                    </ListItem>
+                    <Separator bordered style={styles.separatorHeaderStyle}>
+                        <Text style={styles.separatorItemStyle}>Faculdade</Text>
+                    </Separator>
+                    <ListItem style={styles.separatorListItemStyle}>
+                        <Text style={styles.textSeparatorStyle}>IFG - Campus Inhumas</Text>
+                    </ListItem>
+                    <Separator bordered style={styles.separatorHeaderStyle}>
+                        <Text style={styles.separatorItemStyle}>E-mail</Text>
+                    </Separator>
+                    <ListItem style={styles.separatorListItemStyle}>
+                        <Text style={styles.textSeparatorStyle}>urquizaxd@gmail.com</Text>
+                    </ListItem>
+                    <Separator bordered style={styles.separatorHeaderStyle}>
+                        <Text style={styles.separatorItemStyle}>Assuntos</Text>
+                    </Separator>
+                    <ListItem style={styles.separatorListItemStyle}>
+                        <Text style={styles.textSeparatorStyle}>Python, JavaScript, NodeJS</Text>
+                    </ListItem>
+                </View>
+
             </View>
         );
     }
@@ -54,10 +86,37 @@ const styles = StyleSheet.create({
         fontSize: 30,
         paddingVertical: 10
     },
-    
-    cardsProfile:{
+
+    cardsProfile: {
         backgroundColor: '#FFF',
         margin: 20,
         borderRadius: 10
+    },
+
+    namePersonaProfile: {
+        textAlign: "center",
+        fontFamily: "Roboto",
+        color: '#34495e',
+        fontSize: 18,
+        paddingVertical: 10
+    },
+
+    separatorHeaderStyle: {
+        backgroundColor: '#34495e',
+        borderRadius: 5
+    },
+
+    separatorItemStyle: {
+        fontFamily: 'Roboto',
+        color: '#ecf0f1'
+    },
+
+    separatorListItemStyle: {
+        borderRadius: 10
+    },
+
+    textSeparatorStyle: {
+        fontFamily: "Roboto",
+        color: '#34495e'
     }
 });
