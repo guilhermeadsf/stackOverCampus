@@ -11,8 +11,6 @@ import {
     Image
 } from 'react-native'
 
-// import { Container } from './styles';
-
 export default class screens extends Component {
     render() {
         return (
