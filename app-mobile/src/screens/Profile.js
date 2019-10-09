@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
 
     container: {
         alignItems: 'center',
-        padding: 10
+        marginBottom: 18
     },
 
     text: {
