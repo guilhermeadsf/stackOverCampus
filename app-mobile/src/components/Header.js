@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar, Image } from 'react-native';
+import { View, Text, StatusBar, Image, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { withNavigation } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import backButton from '../../assets/imgs/return.png';
 
 function Header(props) {
+  const heightHeader = Math.round(Dimensions.get('window').height) * 0.08;
+
   return props.typeHeader ? (
     <LinearGradient
       start={{ x: 0, y: 0 }}
@@ -24,7 +26,7 @@ function Header(props) {
       <View
         style={{
           width: '100%',
-          height: 70,
+          height: heightHeader,
           alignSelf: 'center',
           justifyContent: 'center',
           flexDirection: 'row'
@@ -78,7 +80,7 @@ function Header(props) {
       <View
         style={{
           width: '100%',
-          height: 70,
+          height: heightHeader,
           alignSelf: 'center',
           justifyContent: 'center'
         }}
@@ -92,9 +94,7 @@ function Header(props) {
             fontWeight: '500'
           }}
         >
-          {
-            props.title
-          }
+          {props.title}
         </Text>
       </View>
     </LinearGradient>
