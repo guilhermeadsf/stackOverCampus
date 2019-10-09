@@ -8,56 +8,72 @@ import {
     ImageBackground,
     TouchableOpacity,
     StatusBar,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 
-import { ListItem, Separator } from 'native-base';
-
+import { ListItem, Separator, Button } from 'native-base';
 
 export default class screens extends Component {
     render() {
         return (
             <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
                 <H typeHeader={1} title='Perfil' />
-
-                <View style={styles.cardsProfile}>
-                    <View style={styles.viewLogoName}>
-                        <Text style={styles.avatarName}>
-                            L
+                <ScrollView>
+                    <View style={styles.cardsProfile}>
+                        <View style={styles.viewLogoName}>
+                            <Text style={styles.avatarName}>
+                                L
+                            </Text>
+                        </View>
+                        <Text style={styles.namePersona}>
+                            Lucas Vieira Urquiza
                         </Text>
                     </View>
-                    <Text style={styles.namePersona}>
-                        Lucas Vieira Urquiza
-                    </Text>
-                </View>
 
-                <View style={styles.cardsProfile}>
-                    <Separator bordered style={styles.separatorHeaderStyle}>
-                        <Text style={styles.separatorItemStyle}>Nome</Text>
-                    </Separator>
-                    <ListItem style={styles.separatorListItemStyle}>
-                        <Text style={styles.textSeparatorStyle}>Lucas Vieira Urquiza</Text>
-                    </ListItem>
-                    <Separator bordered style={styles.separatorHeaderStyle}>
-                        <Text style={styles.separatorItemStyle}>Faculdade</Text>
-                    </Separator>
-                    <ListItem style={styles.separatorListItemStyle}>
-                        <Text style={styles.textSeparatorStyle}>IFG - Campus Inhumas</Text>
-                    </ListItem>
-                    <Separator bordered style={styles.separatorHeaderStyle}>
-                        <Text style={styles.separatorItemStyle}>E-mail</Text>
-                    </Separator>
-                    <ListItem style={styles.separatorListItemStyle}>
-                        <Text style={styles.textSeparatorStyle}>urquizaxd@gmail.com</Text>
-                    </ListItem>
-                    <Separator bordered style={styles.separatorHeaderStyle}>
-                        <Text style={styles.separatorItemStyle}>Assuntos</Text>
-                    </Separator>
-                    <ListItem style={styles.separatorListItemStyle}>
-                        <Text style={styles.textSeparatorStyle}>Python, JavaScript, NodeJS</Text>
-                    </ListItem>
-                </View>
+                    <View style={styles.cardsProfile}>
+                        <Separator bordered style={styles.separatorHeaderStyle}>
+                            <Text style={styles.separatorItemStyle}>Nome</Text>
+                        </Separator>
+                        <ListItem style={styles.separatorListItemStyle}>
+                            <Text style={styles.textSeparatorStyle}>Lucas Vieira Urquiza</Text>
+                        </ListItem>
+                        <Separator bordered style={styles.separatorHeaderStyle}>
+                            <Text style={styles.separatorItemStyle}>Faculdade</Text>
+                        </Separator>
+                        <ListItem style={styles.separatorListItemStyle}>
+                            <Text style={styles.textSeparatorStyle}>IFG - Campus Inhumas</Text>
+                        </ListItem>
+                        <Separator bordered style={styles.separatorHeaderStyle}>
+                            <Text style={styles.separatorItemStyle}>E-mail</Text>
+                        </Separator>
+                        <ListItem style={styles.separatorListItemStyle}>
+                            <Text style={styles.textSeparatorStyle}>urquizaxd@gmail.com</Text>
+                        </ListItem>
+                        <Separator bordered style={styles.separatorHeaderStyle}>
+                            <Text style={styles.separatorItemStyle}>Assuntos</Text>
+                        </Separator>
+                        <ListItem style={styles.separatorListItemStyle}>
+                            <Text style={styles.textSeparatorStyle}>Python, JavaScript, NodeJS</Text>
+                        </ListItem>
+                    </View>
 
+                    <View style={styles.container}>
+                        <TouchableOpacity>
+                            <Text style={styles.text}>
+                                Esqueceu Sua Senha?
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={styles.container}>
+                        <TouchableOpacity>
+                            <Text style={styles.text}>
+                                Alterar Dados
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
             </View>
         );
     }
@@ -118,5 +134,16 @@ const styles = StyleSheet.create({
     textSeparatorStyle: {
         fontFamily: "Roboto",
         color: '#34495e'
+    },
+
+    container: {
+        alignItems: 'center',
+        padding: 10
+    },
+
+    text: {
+        fontFamily: "Roboto",
+        color: '#34495e',
+        fontSize: 18
     }
 });
