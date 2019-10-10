@@ -6,3 +6,12 @@ export const userLogout = state => async dispatch => {
     }
   ]);
 };
+
+export const addThemes = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_THEMES',
+      payload: state
+    }
+  ]);
+};
