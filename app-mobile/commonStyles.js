@@ -1,4 +1,4 @@
 export default {
-  fontFamily: 'Lato',
-  backgroundColor: '#ecf0f1'
+  fontFamily: 'Roboto',
+  backgroundColor: '#e6e9ea'
 };

@@ -1,71 +1,43 @@
 import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, ActivityIndicator, Modal } from 'react-native';
+import axios from 'axios';
 import Theme from '../components/theme';
 import Header from '../components/Header';
+import commonStyles from '../../commonStyles.js';
 import { connect } from 'react-redux';
 import { userLogout } from '../redux/actions/userDataActions';
 
-const dados = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'Python'
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'React Native'
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'React JS'
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Vue JS'
-  },
-  {
-    id: '5',
-    title: 'Java'
-  },
-  {
-    id: '58729d72',
-    title: 'Angular'
-  },
-  {
-    id: '545571e29d72',
-    title: 'Spring Boot'
-  },
-  {
-    id: '529d72',
-    title: 'C'
-  },
-  {
-    id: '586972',
-    title: 'C++'
-  },
-  {
-    id: '5bd96-145571e29d72',
-    title: 'Flutter'
-  },
-  {
-    id: '596-145571e29d72',
-    title: 'GraphQL'
-  }
-];
-
 class App extends React.Component {
+  state = {
+    title: [],
+    loading: true
+  };
+
   async componentDidMount() {
     const { userLogoutAction } = this.props;
     await userLogoutAction(true);
+
+    // await axios
+    //   .get('https://stackovercampus.herokuapp.com/getThemes')
+    //   .then(response => {
+    //     this.setState({ title: response.data });
+    //     console.log(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.log(error);
+    //   });
+
+    this.setState({ loading: false });
   }
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ecf0f1' }}>
-        <Header />
+      <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
+        <Header title="Home" />
         <View style={{ flex: 9, marginTop: 20 }}>
           <FlatList
-            data={dados} // Vai vim da API!
-            renderItem={({ item }) => <Theme themeName={item.title} />}
-            keyExtractor={item => item.id}
+            data={this.props.themes} // Vai vim da API!
+            renderItem={({ item }) => <Theme themeName={item.name} />}
+            keyExtractor={item => item._id}
             numColumns={2}
           />
         </View>
@@ -75,7 +47,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  userState: state.UserDataReducer.userState
+  userState: state.UserDataReducer.userState,
+  themes: state.UserDataReducer.themes
 });
 
 const mapDispatchToProps = {

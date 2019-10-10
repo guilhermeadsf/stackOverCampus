@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text, Image, StatusBar } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import LinearGradient from 'react-native-linear-gradient';
+import { addThemes } from '../redux/actions/userDataActions';
 import imageData from '../../assets/imgs/data-collection.png';
 
 class Loading extends Component {
@@ -11,6 +13,17 @@ class Loading extends Component {
   }
 
   async componentDidMount() {
+    const { addThemesAction } = this.props;
+
+    await axios
+      .get('https://stackovercampus.herokuapp.com/getThemes')
+      .then(response => {
+        addThemesAction(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+
     setTimeout(() => {
       this.whyRouteGo();
     }, 2000);
@@ -43,7 +56,11 @@ const mapStateToProps = state => ({
   userState: state.UserDataReducer.userState
 });
 
+const mapDispatchToProps = {
+  addThemesAction: addThemes
+};
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Loading);

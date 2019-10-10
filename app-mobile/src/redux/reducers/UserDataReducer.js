@@ -11,6 +11,7 @@ const initialState = {
   password: '',
   phone: '',
   userState: false,
+  themes: []
 };
 
 const UserDataReducer = (state = initialState, action) => {
@@ -39,6 +40,8 @@ const UserDataReducer = (state = initialState, action) => {
       return { ...state, phone: action.payload };
     case 'USER_LOGOUT':
       return { ...state, userState: action.payload };
+    case 'ADD_THEMES':
+      return { ...state, themes: action.payload };
     default:
       return state;
   }
