@@ -6,9 +6,12 @@ import {
   ImageBackground,
   TouchableOpacity,
   StatusBar,
-  Image
+  Picker
 } from 'react-native';
 import AuthInput from '../components/Authinput';
+import axios from 'axios';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
 import { SocialIcon } from 'react-native-elements';
 
@@ -18,15 +21,39 @@ export default class Auth extends Component {
     name: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    loading: false
   };
 
-  signin = async () => { };
+  signin = async () => {
+    this.setState({ loading: true });
+    const login = await axios.post(
+      'https://stackovercampus.herokuapp.com/login',
+      {
+        email: this.state.email.trim().toLowerCase(),
+        password: this.state.password
+      }
+    );
+    console.log(login.data);
+    this.setState({ loading: false });
 
-  signup = async () => { };
+    if (login.data == 'Ok') {
+      this.props.navigation.navigate('Home');
+    } else {
+      this.refs.toast.show('Senha incorreta!', 2000, () => {
+        // something you want to do at close
+      });
+    }
+  };
+
+  signup = async () => {};
 
   signinOrSignup = () => {
-    this.props.navigation.navigate('Home');
+    if (this.state.stageNew) {
+      this.signup();
+    } else {
+      this.signin();
+    }
   };
 
   render() {
@@ -52,6 +79,7 @@ export default class Auth extends Component {
           barStyle="light-content"
           backgroundColor="transparent"
         />
+        <Loading status={this.state.loading} />
         <Text style={styles.title}>Stack Over Campus</Text>
         <View style={styles.formContainer}>
           <Text style={styles.subtitle}>
@@ -93,7 +121,22 @@ export default class Auth extends Component {
               }
             />
           )}
-          <TouchableOpacity disabled={validaForm} onPress={this.signinOrSignup}>
+          {/* <Picker
+            selectedValue={this.state.language}
+            style={{ height: 50, width: '100%', marginTop: 10, marginLeft: 10 }}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({ language: itemValue })
+            }
+            prompt="Teste"
+            itemStyle={{ textAlign: 'center' }}
+          >
+            <Picker.Item label="Java" value="java" />
+            <Picker.Item label="JavaScript" value="js" />
+          </Picker> */}
+          <TouchableOpacity
+            disabled={!validaForm}
+            onPress={this.signinOrSignup}
+          >
             <View
               style={[
                 styles.button,
@@ -117,35 +160,36 @@ export default class Auth extends Component {
           </Text>
         </TouchableOpacity>
 
-        <View style={{ width: 220, flexDirection: 'column' }}>
-            <SocialIcon
-              //Social Icon using react-native-elements
-              button
-              //To make a button type Social Icon
-              title="Logar com o Facebook"
-              //Title of Social Button
-              type="facebook"
-              //Type of Social Icon
-              onPress={() => {
-                //Action to perform on press of Social Icon
-                alert('facebook');
-              }}
-            />
+        {/* <View style={{ width: 220, flexDirection: 'column' }}>
+          <SocialIcon
+            //Social Icon using react-native-elements
+            button
+            //To make a button type Social Icon
+            title="Logar com o Facebook"
+            //Title of Social Button
+            type="facebook"
+            //Type of Social Icon
+            onPress={() => {
+              //Action to perform on press of Social Icon
+              alert('facebook');
+            }}
+          />
 
-            <SocialIcon
-              //Social Icon using react-native-elements
-              button
-              //To make a button type Social Icon
-              title="Logar com o Google"
-              //Title of Social Button
-              type="google"
-              //Type of Social Icon
-              onPress={() => {
-                //Action to perform on press of Social Icon
-                alert('google');
-              }}
-            />
-          </View>
+          <SocialIcon
+            //Social Icon using react-native-elements
+            button
+            //To make a button type Social Icon
+            title="Logar com o Google"
+            //Title of Social Button
+            type="google"
+            //Type of Social Icon
+            onPress={() => {
+              //Action to perform on press of Social Icon
+              alert('google');
+            }}
+          />
+        </View> */}
+        <Toast ref="toast" />
       </ImageBackground>
     );
   }
