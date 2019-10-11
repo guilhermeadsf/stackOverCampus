@@ -8,6 +8,8 @@ import {
   StatusBar,
   Picker
 } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import AuthInput from '../components/Authinput';
 import axios from 'axios';
 import Toast, { DURATION } from 'react-native-easy-toast';
