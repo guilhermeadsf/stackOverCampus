@@ -13,9 +13,11 @@ import axios from 'axios';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
+import { userLogout } from '../redux/actions/userDataActions';
+import { connect } from 'react-redux';
 import { SocialIcon } from 'react-native-elements';
 
-export default class Auth extends Component {
+class Auth extends Component {
   state = {
     stageNew: false,
     name: '',
@@ -26,6 +28,8 @@ export default class Auth extends Component {
   };
 
   signin = async () => {
+    console.log(this.state.email.trim().toLowerCase());
+    console.log(this.state.password);
     this.setState({ loading: true });
     const login = await axios.post(
       'https://stackovercampus.herokuapp.com/login',
@@ -38,6 +42,8 @@ export default class Auth extends Component {
     this.setState({ loading: false });
 
     if (login.data == 'Ok') {
+      const { userLogoutAction } = this.props;
+      await userLogoutAction(true);
       this.props.navigation.navigate('Home');
     } else {
       this.refs.toast.show('Senha incorreta!', 2000, () => {
@@ -250,3 +256,12 @@ const styles = StyleSheet.create({
     textShadowRadius: 10
   }
 });
+
+const mapDispatchToProps = {
+  userLogoutAction: userLogout
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Auth);
