@@ -94,7 +94,7 @@ const switchNavigator = createSwitchNavigator(
     }
   },
   {
-    initialRouteName: 'Auth'
+    initialRouteName: 'Loading'
   }
 );
 
