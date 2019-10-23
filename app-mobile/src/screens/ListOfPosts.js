@@ -11,7 +11,7 @@ class ListOfPosts extends Component {
     const name = this.props.navigation.getParam('id');
     return (
       <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
-        <Header typeHeader={1} title='Tópicos em Discussão'/>
+        <Header typeHeader={1} title="Tópicos" />
         <ScrollView style={{ flex: 9 }}>
           <View
             style={{

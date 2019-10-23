@@ -6,6 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import addPost from '../assets/imgs/data-collection.png';
 import Auth from './screens/Auth';
 import ListOfPosts from './screens/ListOfPosts';
+import AddPhoto from './screens/AddPost';
 import home from '../assets/imgs/home.png';
 import user from '../assets/imgs/user.png';
 import books from '../assets/imgs/stackBooks.png';
@@ -39,7 +40,7 @@ const bottomNavigator = createBottomTabNavigator(
       }
     },
     Adicionar: {
-      screen: stackNavigator,
+      screen: AddPhoto,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={addPost} style={{ width: 20, height: 20 }} />

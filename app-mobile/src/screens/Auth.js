@@ -5,8 +5,7 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  StatusBar,
-  Picker
+  StatusBar
 } from 'react-native';
 import AuthInput from '../components/Authinput';
 import axios from 'axios';
@@ -15,7 +14,7 @@ import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
 import { userLogout } from '../redux/actions/userDataActions';
 import { connect } from 'react-redux';
-import { SocialIcon } from 'react-native-elements';
+import { Container, Header, Content, Form, Item, Picker } from 'native-base';
 
 class Auth extends Component {
   state = {
@@ -31,25 +30,47 @@ class Auth extends Component {
     console.log(this.state.email.trim().toLowerCase());
     console.log(this.state.password);
     this.setState({ loading: true });
-    const login = await axios.post(
-      'https://stackovercampus.herokuapp.com/login',
-      {
+
+    axios
+      .post('https://stackovercampus.herokuapp.com/login', {
         email: this.state.email.trim().toLowerCase(),
         password: this.state.password
-      }
-    );
-    console.log(login.data);
-    this.setState({ loading: false });
-
-    if (login.data == 'Ok') {
-      const { userLogoutAction } = this.props;
-      await userLogoutAction(true);
-      this.props.navigation.navigate('Home');
-    } else {
-      this.refs.toast.show('Senha incorreta!', 2000, () => {
-        // something you want to do at close
+      })
+      .then(response => {
+        console.log(response.data);
+        this.setState({ loading: false });
+        const { userLogoutAction } = this.props;
+        userLogoutAction(true);
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => {
+        console.log('Erro!');
+        this.refs.toast.show('Senha incorreta!', 2000, () => {
+          // something you want to do at close
+        });
+        this.setState({ loading: false });
+        console.log(error);
       });
-    }
+
+    // const login = await axios.post(
+    //   'https://stackovercampus.herokuapp.com/login',
+    //   {
+    //     email: this.state.email.trim().toLowerCase(),
+    //     password: this.state.password
+    //   }
+    // ).catch();
+    // console.log(login.data);
+    // this.setState({ loading: false });
+
+    // if (login.data == 'Ok') {
+    //   const { userLogoutAction } = this.props;
+    //   await userLogoutAction(true);
+    //   this.props.navigation.navigate('Home');
+    // } else {
+    //   this.refs.toast.show('Senha incorreta!', 2000, () => {
+    //     // something you want to do at close
+    //   });
+    // }
   };
 
   signup = async () => {};
@@ -127,6 +148,20 @@ class Auth extends Component {
               }
             />
           )}
+
+          <Item picker>
+            <Picker
+              mode="dropdown"
+              style={{ width: undefined, color: '#FFF' }}
+              selectedValue={this.state.selected2}
+            >
+              <Picker.Item label="Wallet" value="key0" />
+              <Picker.Item label="ATM Card" value="key1" />
+              <Picker.Item label="Debit Card" value="key2" />
+              <Picker.Item label="Credit Card" value="key3" />
+              <Picker.Item label="Net Banking" value="key4" />
+            </Picker>
+          </Item>
           {/* <Picker
             selectedValue={this.state.language}
             style={{ height: 50, width: '100%', marginTop: 10, marginLeft: 10 }}
