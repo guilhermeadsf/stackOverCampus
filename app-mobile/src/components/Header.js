@@ -102,20 +102,41 @@ function Header(props) {
           width: '100%',
           height: heightHeader,
           alignSelf: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          flexDirection: 'row'
         }}
       >
-        <Text
+        <View
           style={{
-            textAlign: 'center',
-            fontFamily: 'Roboto',
-            fontSize: 22,
-            marginTop: 15,
-            fontWeight: '500'
+            flex: 1
+          }}
+        />
+        <View style={{ flex: 3, justifyContent: 'center' }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'Roboto',
+              fontSize: 22,
+              marginTop: 15,
+              fontWeight: '500'
+            }}
+          >
+            {props.title}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 16
           }}
         >
-          {props.title}
-        </Text>
+          <TouchableOpacity onPress={exitApp}>
+            <Image source={exitButton} style={{ width: 20, height: 20 }} />
+          </TouchableOpacity>
+        </View>
       </View>
     </LinearGradient>
   );
