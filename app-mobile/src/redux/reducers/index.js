@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import UserDataReducer from './UserDataReducer';
+import Posts from './posts';
 
 const rootReducer = combineReducers({
-  UserDataReducer
+  UserDataReducer,
+  Posts
 });
 
 export default (state, action) =>

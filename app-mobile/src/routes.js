@@ -13,6 +13,7 @@ import books from '../assets/imgs/stackBooks.png';
 import Menu from './screens/Menu';
 import Loading from './screens/Loading';
 import Profile from './screens/Profile';
+import AddDocuments from './screens/AddDocuments';
 
 const stackNavigator = createStackNavigator(
   {
@@ -48,7 +49,7 @@ const bottomNavigator = createBottomTabNavigator(
       }
     },
     Trabalhos: {
-      screen: stackNavigator,
+      screen: AddDocuments,
       navigationOptions: {
         tabBarIcon: () => (
           <Image source={books} style={{ width: 20, height: 20 }} />

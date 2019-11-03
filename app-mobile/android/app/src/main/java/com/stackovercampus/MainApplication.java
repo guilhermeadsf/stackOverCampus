@@ -3,6 +3,8 @@ package com.stackovercampus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rnfs.RNFSPackage;
+import io.github.elyx0.reactnativedocumentpicker.DocumentPickerPackage;
 import com.imagepicker.ImagePickerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.BV.LinearGradient.LinearGradientPackage;
@@ -29,6 +31,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFSPackage(),
+            new DocumentPickerPackage(),
             new ImagePickerPackage(),
             new VectorIconsPackage(),
             new LinearGradientPackage(),

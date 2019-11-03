@@ -14,9 +14,6 @@ class App extends React.Component {
   };
 
   async componentDidMount() {
-    const { userLogoutAction } = this.props;
-    await userLogoutAction(true);
-
     // await axios
     //   .get('https://stackovercampus.herokuapp.com/getThemes')
     //   .then(response => {
