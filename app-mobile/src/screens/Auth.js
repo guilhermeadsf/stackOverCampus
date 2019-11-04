@@ -14,7 +14,7 @@ import axios from 'axios';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
-import { userLogout } from '../redux/actions/userDataActions';
+import { userLogout, addEmail } from '../redux/actions/userDataActions';
 import { connect } from 'react-redux';
 
 class Auth extends Component {
@@ -41,8 +41,9 @@ class Auth extends Component {
       .then(response => {
         console.log(response.data);
         this.setState({ loading: false });
-        const { userLogoutAction } = this.props;
+        const { userLogoutAction, addEmailInRedux } = this.props;
         userLogoutAction(true);
+        addEmailInRedux(this.state.email);
         this.props.navigation.navigate('Home');
       })
       .catch(error => {
@@ -284,7 +285,8 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = {
-  userLogoutAction: userLogout
+  userLogoutAction: userLogout,
+  addEmailInRedux: addEmail
 };
 
 export default connect(

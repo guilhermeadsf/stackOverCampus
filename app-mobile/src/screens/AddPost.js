@@ -53,7 +53,7 @@ class AddPhoto extends React.Component {
   save = async () => {
     this.props.onAddPost({
       title: this.state.title,
-      emailUser: 'guilherme.adsf@hotmail.com',
+      emailUser: this.props.email,
       description: this.state.description,
       image: this.state.image,
       theme: this.state.theme
@@ -165,6 +165,10 @@ const styles = StyleSheet.create({
   }
 });
 
+const mapStateToProps = state => ({
+  email: state.UserDataReducer.email
+});
+
 const mapDispatchToProps = dispatch => {
   return {
     onAddPost: post => dispatch(addPost(post))
@@ -172,6 +176,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(AddPhoto);
