@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
   Image,
   Dimensions,
   Platform,
@@ -12,27 +11,21 @@ import {
   Picker
 } from 'react-native';
 import { connect } from 'react-redux';
-import { addPost } from '../redux/actions/posts';
 import { Item, Input, Label, Textarea } from 'native-base';
 import Header from '../components/Header';
+import axios from 'axios';
+import Toast, { DURATION } from 'react-native-easy-toast';
+import Loading from '../components/Loading';
 import ImagePicker from 'react-native-image-picker';
 
 class AddPhoto extends React.Component {
   state = {
-    image: null,
+    image: '',
     title: '',
-    theme: '',
-    description: ''
-  };
-
-  componentDidUpdate = prevProps => {
-    if (prevProps.loading && !this.props.loading) {
-      this.setState({
-        image: null,
-        comment: ''
-      });
-      this.props.navigation.navigate('Menu');
-    }
+    pickerTheme: '',
+    description: '',
+    loading: false,
+    imageUrl: ''
   };
 
   pickImage = () => {
@@ -50,25 +43,89 @@ class AddPhoto extends React.Component {
     );
   };
 
-  save = async () => {
-    this.props.onAddPost({
-      title: this.state.title,
-      emailUser: this.props.email,
-      description: this.state.description,
-      image: this.state.image,
-      theme: this.state.theme
-    });
+  save = async validaForm => {
+    if (validaForm) {
+      this.setState({ loading: true });
+      await this.postImageFireBase();
+      await this.insertPost();
+      this.setState({
+        image: '',
+        title: '',
+        pickerTheme: '',
+        description: '',
+        loading: false,
+        imageUrl: ''
+      });
+    } else {
+      this.refs.toast.show(
+        'Todos os dados devem estar preenchidos!',
+        2000,
+        () => {
+          // something you want to do at close
+        }
+      );
+    }
+  };
+
+  postImageFireBase = async () => {
+    await axios({
+      url: 'uploadImage',
+      baseURL: 'https://us-central1-stackovercampus-8a3f6.cloudfunctions.net/',
+      method: 'post',
+      data: {
+        image: this.state.image.base64
+      }
+    })
+      .then(res => this.setState({ imageUrl: res.data.imageUrl }))
+      .catch(err => console.log(err));
+  };
+
+  insertPost = async () => {
+    axios
+      .post('https://stackovercampus.herokuapp.com/createPost', {
+        title: this.state.title,
+        emailUser: this.props.email,
+        description: this.state.description,
+        imageUrl: this.state.imageUrl,
+        theme: this.state.pickerTheme,
+        username: this.props.username
+      })
+      .catch(err => {
+        console.log(err);
+        this.refs.toast.show('Erro interno!', 2000, () => {
+          // something you want to do at close
+        });
+      })
+      .then(r => {
+        console.log(r.data);
+        this.refs.toast.show('Inserido com sucesso!', 2000, () => {
+          // something you want to do at close
+        });
+      });
   };
 
   render() {
+    const validations = [];
+
+    validations.push(this.state.title);
+    validations.push(this.state.description);
+    validations.push(this.state.pickerTheme && this.state.pickerTheme != 'df');
+    validations.push(this.state.image);
+
+    const validaForm = validations.reduce((all, v) => all && v);
+
     return (
       <View style={{ flex: 1, backgroundColor: '#ecf0f1' }}>
         <Header title="Criar Postagem" />
+        <Loading status={this.state.loading} />
         <ScrollView>
           <View style={styles.container}>
             <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
               <Label style={{ color: '#000' }}>Título da Postagem</Label>
-              <Input onChangeText={value => this.setState({ title: value })} />
+              <Input
+                onChangeText={value => this.setState({ title: value })}
+                value={this.state.title}
+              />
             </Item>
             <Textarea
               rowSpan={5}
@@ -77,9 +134,10 @@ class AddPhoto extends React.Component {
               placeholderTextColor="#000"
               style={{ width: '90%' }}
               onChangeText={value => this.setState({ description: value })}
+              value={this.state.description}
             />
             <Picker
-              selectedValue={this.state.theme}
+              selectedValue={this.state.pickerTheme}
               style={{
                 height: 50,
                 width: '90%',
@@ -89,17 +147,13 @@ class AddPhoto extends React.Component {
                 textAlign: 'center'
               }}
               onValueChange={(itemValue, itemIndex) =>
-                this.setState({ theme: itemValue })
+                this.setState({ pickerTheme: itemValue })
               }
               mode="dropdown"
             >
-              <Picker.Item label="Escolha o tema" value="default" />
-              <Picker.Item label="Sistemas de Informação" value="S.I" />
-              <Picker.Item label="Licenciatura em Química" value="quim" />
-              <Picker.Item
-                label="Ciência e Tecnologia de Alimentos"
-                value="tecalim"
-              />
+              <Picker.Item label="Escolha o tema" value="df" />
+              <Picker.Item label="Python" value="Python" />
+              <Picker.Item label="Flutter" value="Flutter" />
             </Picker>
             <View style={styles.imageContainer}>
               <Image source={this.state.image} style={styles.image} />
@@ -108,7 +162,7 @@ class AddPhoto extends React.Component {
               <Text style={styles.buttomText}>Escolha a foto</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              onPress={this.save}
+              onPress={() => this.save(validaForm)}
               disabled={this.props.loading}
               style={[
                 styles.buttom,
@@ -120,6 +174,7 @@ class AddPhoto extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
+        <Toast ref="toast" />
       </View>
     );
   }
@@ -166,16 +221,11 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  email: state.UserDataReducer.email
+  email: state.UserDataReducer.email,
+  username: state.UserDataReducer.username
 });
-
-const mapDispatchToProps = dispatch => {
-  return {
-    onAddPost: post => dispatch(addPost(post))
-  };
-};
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(AddPhoto);

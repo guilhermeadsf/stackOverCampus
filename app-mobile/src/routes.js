@@ -11,6 +11,7 @@ import home from '../assets/imgs/home.png';
 import user from '../assets/imgs/user.png';
 import books from '../assets/imgs/stackBooks.png';
 import Menu from './screens/Menu';
+import PostFull from './screens/PostFull';
 import Loading from './screens/Loading';
 import Profile from './screens/Profile';
 import AddDocuments from './screens/AddDocuments';
@@ -22,6 +23,9 @@ const stackNavigator = createStackNavigator(
     },
     ListOfPosts: {
       screen: ListOfPosts
+    },
+    PostFull: {
+      screen: PostFull
     }
   },
   {

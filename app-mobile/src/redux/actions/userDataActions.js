@@ -24,3 +24,12 @@ export const addEmail = state => async dispatch => {
     }
   ]);
 };
+
+export const addName = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_NAME',
+      payload: state
+    }
+  ]);
+};

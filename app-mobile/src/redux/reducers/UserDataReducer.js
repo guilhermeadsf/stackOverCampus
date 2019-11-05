@@ -1,11 +1,14 @@
 const initialState = {
   email: '',
+  username: '',
   userState: false,
   themes: []
 };
 
 const UserDataReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'ADD_NAME':
+      return { ...state, username: action.payload };
     case 'ADD_EMAIL':
       return { ...state, email: action.payload };
     case 'USER_LOGOUT':

@@ -56,12 +56,21 @@ export default class AddDocuments extends Component {
     }
   };
 
-  save = async () => {
-    this.setState({ loading: true });
-    await this.postPdfFireBase();
-
-    await this.insertDocument();
-    this.setState({ loading: false });
+  save = async validaForm => {
+    if (validaForm) {
+      this.setState({ loading: true });
+      await this.postPdfFireBase();
+      await this.insertDocument();
+      this.setState({ loading: false });
+    } else {
+      this.refs.toast.show(
+        'Todos os dados devem estar preenchidos!',
+        2000,
+        () => {
+          // something you want to do at close
+        }
+      );
+    }
   };
 
   postPdfFireBase = async () => {
@@ -104,6 +113,16 @@ export default class AddDocuments extends Component {
   };
 
   render() {
+    const validations = [];
+
+    validations.push(this.state.title);
+    validations.push(this.state.orientando);
+    validations.push(this.state.orientador);
+    validations.push(this.state.description);
+    validations.push(this.state.documentBase64);
+
+    const validaForm = validations.reduce((all, v) => all && v);
+
     return (
       <View style={{ flex: 1 }}>
         <Header title="Adicionar Trabalho" />
@@ -201,7 +220,7 @@ export default class AddDocuments extends Component {
                 marginVertical: 10,
                 borderRadius: 10
               }}
-              onPress={this.save}
+              onPress={() => this.save(validaForm)}
             >
               <Text
                 style={{ fontSize: 15, fontFamily: 'Roboto', color: '#FFF' }}
