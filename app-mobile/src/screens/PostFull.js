@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/Header';
 import { Image, View, TouchableOpacity } from 'react-native';
 import axios from 'axios';
+import uuidv4 from 'uuid/v4';
 import Loading from '../components/Loading';
 import {
   Container,
@@ -13,19 +14,29 @@ import {
   Textarea,
   Form
 } from 'native-base';
+import { connect } from 'react-redux';
 
-export default class PostFull extends Component {
+class PostFull extends Component {
   constructor(props) {
     super(props);
     this.state = {
       post: '',
       textAreaComment: '',
-      loading: false
+      loading: false,
+      imageUrl: null
     };
   }
 
   componentDidMount = () => {
-    this.setState({ post: this.props.navigation.getParam('obj') });
+    this.setState({
+      loading: true,
+      post: this.props.navigation.getParam('obj'),
+      imageUrl: this.props.navigation.getParam('obj').imageUrl
+    });
+
+    this.setState({
+      loading: false
+    });
   };
 
   addComment = async () => {
@@ -34,7 +45,7 @@ export default class PostFull extends Component {
       .post('https://stackovercampus.herokuapp.com/addComment', {
         _id: this.state.post._id,
         comment: {
-          username: this.state.post.username,
+          username: this.props.username,
           comment: this.state.textAreaComment
         }
       })
@@ -62,7 +73,7 @@ export default class PostFull extends Component {
               <CardItem>
                 <Body style={{ alignItems: 'center' }}>
                   <Image
-                    source={{ uri: post.imageUrl }}
+                    source={{ uri: this.state.imageUrl }}
                     style={{
                       height: 400,
                       width: '90%',
@@ -76,7 +87,7 @@ export default class PostFull extends Component {
               {post.comments && post.comments.length > 0 ? (
                 post.comments.map(comment => {
                   return (
-                    <CardItem footer bordered>
+                    <CardItem footer bordered key={uuidv4()}>
                       <Text>{comment.username}: </Text>
                       <Body>
                         <Text>{comment.comment}</Text>
@@ -139,3 +150,12 @@ export default class PostFull extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  username: state.UserDataReducer.username
+});
+
+export default connect(
+  mapStateToProps,
+  null
+)(PostFull);

@@ -33,3 +33,12 @@ export const addName = state => async dispatch => {
     }
   ]);
 };
+
+export const addCourse = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_COURSE',
+      payload: state
+    }
+  ]);
+};

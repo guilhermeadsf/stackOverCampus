@@ -162,15 +162,22 @@ class AddPhoto extends React.Component {
               <Text style={styles.buttomText}>Escolha a foto</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              style={{
+                width: '70%',
+                backgroundColor: '#34495e',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: 15,
+                marginVertical: 10,
+                borderRadius: 10
+              }}
               onPress={() => this.save(validaForm)}
-              disabled={this.props.loading}
-              style={[
-                styles.buttom,
-                { marginTop: 20 },
-                this.props.loading ? styles.buttonDisabled : null
-              ]}
             >
-              <Text style={styles.buttomText}>Salvar</Text>
+              <Text
+                style={{ fontSize: 15, fontFamily: 'Roboto', color: '#FFF' }}
+              >
+                Salvar
+              </Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -203,7 +210,7 @@ const styles = StyleSheet.create({
   },
   buttom: {
     marginTop: 10,
-    padding: 10,
+    padding: 20,
     backgroundColor: '#34495e',
     borderRadius: 10
   },

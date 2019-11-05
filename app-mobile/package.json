@@ -31,7 +31,8 @@
     "redux-logger": "^3.0.6",
     "redux-multi": "0.1.12",
     "redux-persist": "5.10.0",
-    "redux-thunk": "2.3.0"
+    "redux-thunk": "2.3.0",
+    "uuid": "^3.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",

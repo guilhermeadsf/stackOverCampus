@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text, View, FlatList, ActivityIndicator, Modal } from 'react-native';
-import axios from 'axios';
+import { View, FlatList, TouchableOpacity, Text } from 'react-native';
 import Theme from '../components/theme';
+import LinearGradient from 'react-native-linear-gradient';
 import Header from '../components/Header';
 import commonStyles from '../../commonStyles.js';
 import { connect } from 'react-redux';
@@ -9,28 +9,65 @@ import { userLogout } from '../redux/actions/userDataActions';
 
 class App extends React.Component {
   state = {
-    title: [],
-    loading: true
+    title: []
   };
 
-  async componentDidMount() {
-    // await axios
-    //   .get('https://stackovercampus.herokuapp.com/getThemes')
-    //   .then(response => {
-    //     this.setState({ title: response.data });
-    //     console.log(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //   });
-
-    this.setState({ loading: false });
-  }
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
         <Header title="Home" />
         <View style={{ flex: 9, marginTop: 20 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              marginBottom: 5
+            }}
+          >
+            <TouchableOpacity
+              style={{
+                width: '30%',
+                height: 40,
+                backgroundColor: '#7f8c8d',
+                marginRight: 5,
+                borderRadius: 5,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              disabled={true}
+            >
+              <Text
+                style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}
+              >
+                Temas
+              </Text>
+            </TouchableOpacity>
+            <LinearGradient
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              colors={['#1abc9c', '#2980b9']}
+              style={{
+                width: '30%',
+                borderRadius: 5
+              }}
+            >
+              <TouchableOpacity
+                style={{
+                  flex: 1,
+                  height: 40,
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Text
+                  style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}
+                >
+                  Trabalhos
+                </Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          </View>
+
           <FlatList
             data={this.props.themes} // Vai vim da API!
             renderItem={({ item }) => <Theme themeName={item.name} />}

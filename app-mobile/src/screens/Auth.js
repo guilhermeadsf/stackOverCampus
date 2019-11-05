@@ -17,7 +17,8 @@ import backgroundImage from '../../assets/imgs/Background2.png';
 import {
   userLogout,
   addEmail,
-  addName
+  addName,
+  addCourse
 } from '../redux/actions/userDataActions';
 import { connect } from 'react-redux';
 
@@ -45,10 +46,16 @@ class Auth extends Component {
       .then(response => {
         console.log(response.data);
         this.setState({ loading: false });
-        const { userLogoutAction, addEmailInRedux, addUserName } = this.props;
+        const {
+          userLogoutAction,
+          addEmailInRedux,
+          addUserName,
+          addCourse
+        } = this.props;
         userLogoutAction(true);
         addEmailInRedux(this.state.email);
         addUserName(response.data.name);
+        addCourse(response.data.course);
         this.props.navigation.navigate('Home');
       })
       .catch(error => {
@@ -292,7 +299,8 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
   userLogoutAction: userLogout,
   addEmailInRedux: addEmail,
-  addUserName: addName
+  addUserName: addName,
+  addCourse: addCourse
 };
 
 export default connect(

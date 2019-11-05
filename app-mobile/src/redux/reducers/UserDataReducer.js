@@ -1,6 +1,7 @@
 const initialState = {
   email: '',
   username: '',
+  course: '',
   userState: false,
   themes: []
 };
@@ -15,6 +16,8 @@ const UserDataReducer = (state = initialState, action) => {
       return { ...state, userState: action.payload };
     case 'ADD_THEMES':
       return { ...state, themes: action.payload };
+    case 'ADD_COURSE':
+      return { ...state, course: action.payload };
     default:
       return state;
   }
