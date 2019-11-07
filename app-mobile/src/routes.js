@@ -15,6 +15,8 @@ import PostFull from './screens/PostFull';
 import Loading from './screens/Loading';
 import Profile from './screens/Profile';
 import AddDocuments from './screens/AddDocuments';
+import ListOfWorks from './screens/ListOfWorks';
+import WorkFull from './screens/WorkFull';
 
 const stackNavigator = createStackNavigator(
   {
@@ -26,6 +28,12 @@ const stackNavigator = createStackNavigator(
     },
     PostFull: {
       screen: PostFull
+    },
+    ListOfWorks: {
+      screen: ListOfWorks
+    },
+    WorkFull: {
+      screen: WorkFull
     }
   },
   {
