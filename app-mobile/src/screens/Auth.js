@@ -34,9 +34,7 @@ class Auth extends Component {
   };
 
   signin = async () => {
-    console.log(this.state.email.trim().toLowerCase());
-    console.log(this.state.password);
-    this.setState({ loading: true });
+    await this.setState({ loading: true });
 
     axios
       .post('https://stackovercampus.herokuapp.com/login', {
@@ -59,12 +57,27 @@ class Auth extends Component {
         this.props.navigation.navigate('Home');
       })
       .catch(error => {
-        console.log('Erro!');
-        this.refs.toast.show('Senha incorreta!', 2000, () => {
-          // something you want to do at close
-        });
+        Keyboard.dismiss();
         this.setState({ loading: false });
-        console.log(error);
+        if (error.response) {
+          if (error.response.status == 400) {
+            this.refs.toast.show('Senha incorreta!', 4000, () => {
+              // something you want to do at close
+            });
+          } else {
+            this.refs.toast.show(
+              'Erro interno, contate um Administrador!',
+              4000,
+              () => {
+                // something you want to do at close
+              }
+            );
+          }
+        } else {
+          this.refs.toast.show('Verifique sua conexão!', 4000, () => {
+            // something you want to do at close
+          });
+        }
       });
   };
 
@@ -136,8 +149,8 @@ class Auth extends Component {
       <ImageBackground source={backgroundImage} style={styles.background}>
         <StatusBar
           translucent={true}
-          barStyle="light-content"
-          backgroundColor="transparent"
+          barStyle='light-content'
+          backgroundColor='transparent'
         />
         <Loading status={this.state.loading} />
         <Text style={styles.title}>Stack Over Campus</Text>
@@ -147,33 +160,33 @@ class Auth extends Component {
           </Text>
           {this.state.stageNew && (
             <AuthInput
-              icon="user"
-              placeholder="Nome"
+              icon='user'
+              placeholder='Nome'
               style={styles.input}
               value={this.state.name}
               onChangeText={name => this.setState({ name })}
             />
           )}
           <AuthInput
-            icon="at"
-            placeholder="E-mail"
+            icon='at'
+            placeholder='E-mail'
             style={styles.input}
             value={this.state.email}
-            onChangeText={email => this.setState({ email })}
+            onChangeText={email => this.setState({ email: email.trim() })}
           />
           <AuthInput
-            icon="lock"
+            icon='lock'
             secureTextEntry={true}
-            placeholder="Senha"
+            placeholder='Senha'
             style={styles.input}
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
           {this.state.stageNew && (
             <AuthInput
-              icon="asterisk"
+              icon='asterisk'
               secureTextEntry={true}
-              placeholder="Confirme sua senha"
+              placeholder='Confirme sua senha'
               style={styles.input}
               value={this.state.confirmPassword}
               onChangeText={confirmPassword =>
@@ -195,14 +208,14 @@ class Auth extends Component {
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ language: itemValue })
               }
-              mode="dropdown"
+              mode='dropdown'
             >
-              <Picker.Item label="Escolha seu curso" value="default" />
-              <Picker.Item label="Sistemas de Informação" value="S.I" />
-              <Picker.Item label="Licenciatura em Química" value="quim" />
+              <Picker.Item label='Escolha seu curso' value='default' />
+              <Picker.Item label='Sistemas de Informação' value='S.I' />
+              <Picker.Item label='Licenciatura em Química' value='quim' />
               <Picker.Item
-                label="Ciência e Tecnologia de Alimentos"
-                value="tecalim"
+                label='Ciência e Tecnologia de Alimentos'
+                value='tecalim'
               />
             </Picker>
           )}
@@ -234,7 +247,7 @@ class Auth extends Component {
           </Text>
         </TouchableOpacity>
 
-        <Toast ref="toast" />
+        <Toast ref='toast' />
       </ImageBackground>
     );
   }
@@ -303,7 +316,4 @@ const mapDispatchToProps = {
   addCourse: addCourse
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Auth);
+export default connect(null, mapDispatchToProps)(Auth);

@@ -77,7 +77,10 @@ class AddPhoto extends React.Component {
       }
     })
       .then(res => this.setState({ imageUrl: res.data.imageUrl }))
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.setState({ loading: false });
+        console.log(err);
+      });
   };
 
   insertPost = async () => {
@@ -95,6 +98,7 @@ class AddPhoto extends React.Component {
         this.refs.toast.show('Erro interno!', 2000, () => {
           // something you want to do at close
         });
+        this.setState({ loading: false });
       })
       .then(r => {
         console.log(r.data);
@@ -116,7 +120,7 @@ class AddPhoto extends React.Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: '#ecf0f1' }}>
-        <Header title="Criar Postagem" />
+        <Header typeHeader={1} title='Criar Postagem' />
         <Loading status={this.state.loading} />
         <ScrollView>
           <View style={styles.container}>
@@ -130,8 +134,8 @@ class AddPhoto extends React.Component {
             <Textarea
               rowSpan={5}
               bordered
-              placeholder="Digite uma descrição"
-              placeholderTextColor="#000"
+              placeholder='Digite uma descrição'
+              placeholderTextColor='#000'
               style={{ width: '90%' }}
               onChangeText={value => this.setState({ description: value })}
               value={this.state.description}
@@ -149,11 +153,11 @@ class AddPhoto extends React.Component {
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ pickerTheme: itemValue })
               }
-              mode="dropdown"
+              mode='dropdown'
             >
-              <Picker.Item label="Escolha o tema" value="df" />
-              <Picker.Item label="Python" value="Python" />
-              <Picker.Item label="Flutter" value="Flutter" />
+              <Picker.Item label='Escolha o tema' value='df' />
+              <Picker.Item label='Python' value='Python' />
+              <Picker.Item label='Flutter' value='Flutter' />
             </Picker>
             <View style={styles.imageContainer}>
               <Image source={this.state.image} style={styles.image} />
@@ -181,7 +185,7 @@ class AddPhoto extends React.Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <Toast ref="toast" />
+        <Toast ref='toast' />
       </View>
     );
   }
@@ -232,7 +236,4 @@ const mapStateToProps = state => ({
   username: state.UserDataReducer.username
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(AddPhoto);
+export default connect(mapStateToProps, null)(AddPhoto);

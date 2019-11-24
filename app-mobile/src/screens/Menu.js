@@ -15,7 +15,7 @@ class App extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
-        <Header title="Home" />
+        <Header title='Home' />
         <View style={{ flex: 9, marginTop: 20 }}>
           <MenuOptions temaStatus={0} trabalhoStatus={1} />
           <FlatList
@@ -39,7 +39,4 @@ const mapDispatchToProps = {
   userLogoutAction: userLogout
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -83,7 +83,19 @@ export default class AddDocuments extends Component {
       }
     })
       .then(res => this.setState({ documentUrl: res.data.documentUrl }))
-      .catch(err => console.log(err));
+      .catch(err => {
+        this.refs.toast.show(
+          'Erro interno, contate o administrador!',
+          2000,
+          () => {
+            // something you want to do at close
+          }
+        );
+        this.setState({
+          ...initialState
+        });
+        console.log(err);
+      });
   };
 
   insertDocument = async () => {
@@ -99,6 +111,9 @@ export default class AddDocuments extends Component {
       .catch(err => {
         this.refs.toast.show('Erro interno!', 2000, () => {
           // something you want to do at close
+        });
+        this.setState({
+          ...initialState
         });
       })
       .then(r => {
@@ -125,7 +140,7 @@ export default class AddDocuments extends Component {
 
     return (
       <View style={{ flex: 1 }}>
-        <Header title="Adicionar Trabalho" />
+        <Header typeHeader={1} title='Adicionar Trabalho' />
         <Loading status={this.state.loading} />
         <ScrollView>
           <View
@@ -145,11 +160,11 @@ export default class AddDocuments extends Component {
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ type: itemValue })
               }
-              mode="dropdown"
+              mode='dropdown'
             >
-              <Picker.Item label="Tipo de trabalho" value="default" />
-              <Picker.Item label="Trabalho de Conclusão de Curso" value="TCC" />
-              <Picker.Item label="Artigo" value="Artigo" />
+              <Picker.Item label='Tipo de trabalho' value='default' />
+              <Picker.Item label='Trabalho de Conclusão de Curso' value='TCC' />
+              <Picker.Item label='Artigo' value='Artigo' />
             </Picker>
             <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
               <Label style={{ color: '#000' }}>Título do Trabalho</Label>
@@ -175,8 +190,8 @@ export default class AddDocuments extends Component {
             <Textarea
               rowSpan={5}
               bordered
-              placeholder="Digite uma descrição"
-              placeholderTextColor="#000"
+              placeholder='Digite uma descrição'
+              placeholderTextColor='#000'
               style={{ width: '90%' }}
               onChangeText={value => this.setState({ description: value })}
               value={this.state.description}
@@ -184,7 +199,7 @@ export default class AddDocuments extends Component {
             <View style={{ flexDirection: 'row', width: '90%' }}>
               <Item rounded style={{ flex: 3, marginTop: 10, marginRight: 3 }}>
                 <Input
-                  placeholder="  Nome do arquivo"
+                  placeholder='  Nome do arquivo'
                   value={this.state.filename}
                 />
               </Item>
@@ -230,7 +245,7 @@ export default class AddDocuments extends Component {
             </TouchableOpacity>
           </View>
         </ScrollView>
-        <Toast ref="toast" />
+        <Toast ref='toast' />
       </View>
     );
   }
