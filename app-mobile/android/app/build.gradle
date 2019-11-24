@@ -152,6 +152,9 @@ android {
 }
 
 dependencies {
+    implementation project(':appcenter-crashes')
+    implementation project(':appcenter-analytics')
+    implementation project(':appcenter')
     implementation project(':react-native-fs')
     implementation project(':react-native-document-picker')
     implementation project(':react-native-image-picker')

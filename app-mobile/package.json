@@ -8,6 +8,9 @@
     "postinstall": "jetifier -r"
   },
   "dependencies": {
+    "appcenter": "2.6.0",
+    "appcenter-analytics": "2.6.0",
+    "appcenter-crashes": "2.6.0",
     "axios": "^0.19.0",
     "native-base": "^2.13.8",
     "react": "16.8.3",
