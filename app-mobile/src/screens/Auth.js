@@ -7,7 +7,9 @@ import {
   TouchableOpacity,
   StatusBar,
   Picker,
-  Keyboard
+  Keyboard,
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import AuthInput from '../components/Authinput';
 import axios from 'axios';
@@ -30,7 +32,7 @@ class Auth extends Component {
     password: '',
     confirmPassword: '',
     loading: false,
-    language: 'default'
+    courseName: 'default'
   };
 
   signin = async () => {
@@ -82,22 +84,30 @@ class Auth extends Component {
   };
 
   signup = async () => {
-    console.log(this.state.language);
+    console.log(this.state.courseName);
     this.setState({ loading: true });
-    if (this.state.language != 'default') {
+    if (this.state.courseName != 'default') {
       console.log('Teste');
       axios
         .post('https://stackovercampus.herokuapp.com/createUser', {
           name: this.state.name.trim(),
           password: this.state.password,
           email: this.state.email.trim().toLowerCase(),
-          course: this.state.language.trim()
+          course: this.state.courseName.trim()
         })
         .then(response => {
           console.log(response.data);
           this.setState({ loading: false });
-          const { userLogoutAction } = this.props;
+          const {
+            userLogoutAction,
+            addEmailInRedux,
+            addUserName,
+            addCourse
+          } = this.props;
           userLogoutAction(true);
+          addEmailInRedux(this.state.email);
+          addUserName(this.state.name);
+          addCourse(this.state.courseName);
           this.props.navigation.navigate('Home');
         })
         .catch(error => {
@@ -153,100 +163,110 @@ class Auth extends Component {
           backgroundColor='transparent'
         />
         <Loading status={this.state.loading} />
-        <Text style={styles.title}>Stack Over Campus</Text>
-        <View style={styles.formContainer}>
-          <Text style={styles.subtitle}>
-            {this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}
-          </Text>
-          {this.state.stageNew && (
-            <AuthInput
-              icon='user'
-              placeholder='Nome'
-              style={styles.input}
-              value={this.state.name}
-              onChangeText={name => this.setState({ name })}
-            />
-          )}
-          <AuthInput
-            icon='at'
-            placeholder='E-mail'
-            style={styles.input}
-            value={this.state.email}
-            onChangeText={email => this.setState({ email: email.trim() })}
-          />
-          <AuthInput
-            icon='lock'
-            secureTextEntry={true}
-            placeholder='Senha'
-            style={styles.input}
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-          {this.state.stageNew && (
-            <AuthInput
-              icon='asterisk'
-              secureTextEntry={true}
-              placeholder='Confirme sua senha'
-              style={styles.input}
-              value={this.state.confirmPassword}
-              onChangeText={confirmPassword =>
-                this.setState({ confirmPassword })
-              }
-            />
-          )}
 
-          {this.state.stageNew && (
-            <Picker
-              selectedValue={this.state.language}
-              style={{
-                height: 50,
-                color: '#FFF',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
-              onValueChange={(itemValue, itemIndex) =>
-                this.setState({ language: itemValue })
-              }
-              mode='dropdown'
-            >
-              <Picker.Item label='Escolha seu curso' value='default' />
-              <Picker.Item label='Sistemas de Informação' value='S.I' />
-              <Picker.Item label='Licenciatura em Química' value='quim' />
-              <Picker.Item
-                label='Ciência e Tecnologia de Alimentos'
-                value='tecalim'
-              />
-            </Picker>
-          )}
-
-          <TouchableOpacity
-            disabled={!validaForm}
-            onPress={this.signinOrSignup}
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
-            <View
-              style={[
-                styles.button,
-                !validaForm ? { backgroundColor: '#AAA' } : {}
-              ]}
+            <Text style={this.state.stageNew ? styles.titleTwo : styles.title}>
+              Stack Over Campus
+            </Text>
+            <View style={styles.formContainer}>
+              <Text style={styles.subtitle}>
+                {this.state.stageNew
+                  ? 'Crie a sua conta'
+                  : 'Informe seus dados'}
+              </Text>
+              {this.state.stageNew && (
+                <AuthInput
+                  icon='user'
+                  placeholder='Nome'
+                  style={styles.input}
+                  value={this.state.name}
+                  onChangeText={name => this.setState({ name })}
+                />
+              )}
+              <AuthInput
+                icon='at'
+                placeholder='E-mail'
+                style={styles.input}
+                value={this.state.email}
+                onChangeText={email => this.setState({ email: email.trim() })}
+              />
+              <AuthInput
+                icon='lock'
+                secureTextEntry={true}
+                placeholder='Senha'
+                style={styles.input}
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+              />
+              {this.state.stageNew && (
+                <AuthInput
+                  icon='asterisk'
+                  secureTextEntry={true}
+                  placeholder='Confirme sua senha'
+                  style={styles.input}
+                  value={this.state.confirmPassword}
+                  onChangeText={confirmPassword =>
+                    this.setState({ confirmPassword })
+                  }
+                />
+              )}
+
+              {this.state.stageNew && (
+                <Picker
+                  selectedValue={this.state.courseName}
+                  style={{
+                    height: 50,
+                    color: '#FFF',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                  }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ courseName: itemValue })
+                  }
+                  mode='dropdown'
+                >
+                  <Picker.Item label='Escolha seu curso' value='default' />
+                  <Picker.Item label='Sistemas de Informação' value='S.I' />
+                  <Picker.Item label='Licenciatura em Química' value='quim' />
+                  <Picker.Item
+                    label='Ciência e Tecnologia de Alimentos'
+                    value='tecalim'
+                  />
+                </Picker>
+              )}
+
+              <TouchableOpacity
+                disabled={!validaForm}
+                onPress={this.signinOrSignup}
+              >
+                <View
+                  style={[
+                    styles.button,
+                    !validaForm ? { backgroundColor: '#AAA' } : {}
+                  ]}
+                >
+                  <Text style={styles.buttonText}>
+                    {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={{ padding: 10 }}
+              onPress={() => this.setState({ stageNew: !this.state.stageNew })}
             >
               <Text style={styles.buttonText}>
-                {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                {this.state.stageNew
+                  ? 'Já possui conta ?'
+                  : 'Ainda não possui conta ?'}
               </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={{ padding: 10 }}
-          onPress={() => this.setState({ stageNew: !this.state.stageNew })}
-        >
-          <Text style={styles.buttonText}>
-            {this.state.stageNew
-              ? 'Já possui conta ?'
-              : 'Ainda não possui conta ?'}
-          </Text>
-        </TouchableOpacity>
-
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
         <Toast ref='toast' />
       </ImageBackground>
     );
@@ -256,15 +276,25 @@ class Auth extends Component {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: '100%'
   },
 
   title: {
     fontFamily: 'Roboto',
     color: '#FFF',
     fontSize: 35,
+    marginBottom: 50,
+    fontWeight: 'bold',
+    textShadowColor: '#000',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10
+  },
+
+  titleTwo: {
+    fontFamily: 'Roboto',
+    color: '#FFF',
+    fontSize: 35,
+    marginTop: Math.round(Dimensions.get('window').height) * 0.05,
     marginBottom: 50,
     fontWeight: 'bold',
     textShadowColor: '#000',

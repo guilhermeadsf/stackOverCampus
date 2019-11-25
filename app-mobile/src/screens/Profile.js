@@ -20,7 +20,7 @@ class screens extends Component {
     const letra = this.props.username[0];
     return (
       <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
-        <H typeHeader={1} title="Perfil" />
+        <H typeHeader={1} title='Perfil' />
         <ScrollView>
           <View style={styles.cardsProfile}>
             <View style={styles.viewLogoName}>
@@ -137,7 +137,4 @@ const mapStateToProps = state => ({
   email: state.UserDataReducer.email
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(screens);
+export default connect(mapStateToProps, null)(screens);
