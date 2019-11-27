@@ -1,16 +1,7 @@
 import React, { Component } from 'react';
 import H from '../components/Header';
 import commonStyles from '../../commonStyles.js';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  StatusBar,
-  Image,
-  ScrollView
-} from 'react-native';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
 
 import { ListItem, Separator, Button } from 'native-base';
 import { connect } from 'react-redux';
@@ -43,23 +34,12 @@ class screens extends Component {
               <Text style={styles.textSeparatorStyle}>{this.props.email}</Text>
             </ListItem>
           </View>
-
-          {/* <View style={styles.container}>
-            <TouchableOpacity>
-              <Text style={styles.text}>Esqueceu Sua Senha?</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={styles.container}>
-            <TouchableOpacity>
-              <Text style={styles.text}>Alterar Dados</Text>
-            </TouchableOpacity>
-          </View> */}
         </ScrollView>
       </View>
     );
   }
 }
+
 const styles = StyleSheet.create({
   avatarName: {
     fontFamily: 'Roboto',
