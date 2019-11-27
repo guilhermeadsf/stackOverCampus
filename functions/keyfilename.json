@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "stackovercampus-8a3f6",
+  "private_key_id": "ad04891967181f78f2f6979a64e18b5c3f3a0f05",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCU41b8QABbELUd\nSPNNas1hGcam0AqJyw7im8sWTR4J5NQyByBh9dUqo6PX0yzpo9c7k8jvS3+Rzowp\n85/W6PL6PbKD6X1WrZQx1Z+VXL83rGjM5HEAEfqfhVXssFx+Z2MNuDIL+8i1rsN4\nM+UkqEtzMpeNocs71x99IzzBO4r+HGOnu4XYx4nKp/1NcoNy8tA+9KzNffSbYny3\nJSRRLHfUyiozyMsRPqSeBFV1z/XfMJ3jRTkLn/9PD3QSZZwDORJRcgni2HrDeqzD\nqVmHAdJaE6lkrBBEnms4Dg5xkrPzATh4KZtStJ8DHssHw9ob2BMRWr+nka/baRmN\nAnTmqEljAgMBAAECggEAJlUVqyIrNUbq6lxCz9bEg9BoFcCQRgOylGM5+UbnifKR\nM0QkcTQiqrSw1Ts4X/rfyiX1YK6WbIq6CX8A0wrsq8LAuDegHnXYJrByQrk7PfE0\nljPmZ/c5CGMCyUpqtdyWYwzeTbmIZkZVaxgpUbPGoSUQYdWbBpAPOl+dH77dvShb\nSEz54MByAwiNC37mWoc4i+Z5rhNRFE1C95IhtSyYhWZXoI0JcInkuTAq15Hhxd6+\nx1g/VCOUuzYlJxiYHEorQZ6g0E3D+4nG9EiI55mQz+zPn5siFPA6EFRpkTwgr5I5\n5EL+RcJGfvOa/HOtD0ycx1zTk9roFq87BZE3InNjkQKBgQDPAf11lOcXdV3Ntou0\nQl/qcPH5xTBi5hfs4LO3+TCq7d+/MG094EpqjGPPafmpRZ9hom4LogihDmu0NfX5\nTOulK6AX0Vs0XiUZulW6dYuhB26hNMYnPNXPwCPLis9ZYgg0opW6AaiWHdt5C1tr\nGmwe1Zhc6k+h4S6aXRyMrcd46wKBgQC4IAqW2K4zMcsl7JCDJ8+ODAyZFGUwnLEm\n6NSJ7L36erHXMTpqaGscqfjyUZ47nF3G1aIzfZrQcP7G5bXJ340kJHi2I6glrhal\n3TqZf3utwexNcRTXsAIIrzXdpdDQDIlD0rY8rAa0mHW9AnOblO40tyz8e9QKxGSO\n/AFy+grTaQKBgAiuEK6pe7ckGLbTfLAmSFdQPRU4C3taIo6wLVj9fejs6IDfyvTZ\nPsWQ9W5xByLt5Gz3np2mQa5fKGz6BkJZ01etqJzXDnf3qp6VjZqv6xbpdN4VlGl4\nx45ahCW4wFEDJ0zttFGEWElTHyzIKSEojngMhMMAoC4tfwLB/Lx5XO/ZAoGAO9EU\n/5qXRUR49fIbpLBLSp95fEXW9esB1l0vpztFINm5auqwSp9vpNlHahm/6SfMg2sm\nDcpRgEQlUSKRY2r/5G0A1lNRLiSXcP0lK3byDCoDBcml9shUcNPTERXsd5qLAYCz\n+ZP9fbBGF8hzHGlO1ctojwH/ihvxe049fkfjOnkCgYBGUcfyZxxoB3FGOFWyKf0T\nYmhqo4K2R4pJmjlvwWdIkeIZqVXxPhSmSLi6AQGxDFikeQzs9+q6cA6lDqfGZoPt\n9sQRNXMeQZUp+GwCNaPW6y7TO6HQmHr2IObZHSfwqkz1bv6PMcX1IYhcTOE+H4gY\nKbfXL0PRTRhQQJbG+b1evQ==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-6d6wx@stackovercampus-8a3f6.iam.gserviceaccount.com",
+  "client_id": "102812714646881556730",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-6d6wx%40stackovercampus-8a3f6.iam.gserviceaccount.com"
+}

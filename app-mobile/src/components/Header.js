@@ -4,9 +4,18 @@ import LinearGradient from 'react-native-linear-gradient';
 import { withNavigation } from 'react-navigation';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import backButton from '../../assets/imgs/return.png';
+import exitButton from '../../assets/imgs/logout.png';
+import { userLogout } from '../redux/actions/userDataActions';
+import { connect } from 'react-redux';
 
 function Header(props) {
   const heightHeader = Math.round(Dimensions.get('window').height) * 0.08;
+
+  exitApp = async () => {
+    const { userLogoutAction } = props;
+    await userLogoutAction(false);
+    props.navigation.navigate('Auth');
+  };
 
   return props.typeHeader ? (
     <LinearGradient
@@ -59,7 +68,18 @@ function Header(props) {
           </Text>
         </View>
 
-        <View style={{ flex: 1 }}></View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 16
+          }}
+        >
+          <TouchableOpacity onPress={exitApp}>
+            <Image source={exitButton} style={{ width: 20, height: 20 }} />
+          </TouchableOpacity>
+        </View>
       </View>
     </LinearGradient>
   ) : (
@@ -82,23 +102,51 @@ function Header(props) {
           width: '100%',
           height: heightHeader,
           alignSelf: 'center',
-          justifyContent: 'center'
+          justifyContent: 'center',
+          flexDirection: 'row'
         }}
       >
-        <Text
+        <View
           style={{
-            textAlign: 'center',
-            fontFamily: 'Roboto',
-            fontSize: 22,
-            marginTop: 15,
-            fontWeight: '500'
+            flex: 1
+          }}
+        />
+        <View style={{ flex: 3, justifyContent: 'center' }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontFamily: 'Roboto',
+              fontSize: 22,
+              marginTop: 15,
+              fontWeight: '500'
+            }}
+          >
+            {props.title}
+          </Text>
+        </View>
+
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 16
           }}
         >
-          {props.title}
-        </Text>
+          <TouchableOpacity onPress={exitApp}>
+            <Image source={exitButton} style={{ width: 20, height: 20 }} />
+          </TouchableOpacity>
+        </View>
       </View>
     </LinearGradient>
   );
 }
 
-export default withNavigation(Header);
+const mapDispatchToProps = {
+  userLogoutAction: userLogout
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(withNavigation(Header));

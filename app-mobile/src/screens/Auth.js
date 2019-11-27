@@ -6,16 +6,23 @@ import {
   ImageBackground,
   TouchableOpacity,
   StatusBar,
-  Picker
+  Picker,
+  Keyboard,
+  Dimensions,
+  ScrollView
 } from 'react-native';
 import AuthInput from '../components/Authinput';
 import axios from 'axios';
 import Toast, { DURATION } from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
-import { userLogout } from '../redux/actions/userDataActions';
+import {
+  userLogout,
+  addEmail,
+  addName,
+  addCourse
+} from '../redux/actions/userDataActions';
 import { connect } from 'react-redux';
-import { SocialIcon } from 'react-native-elements';
 
 class Auth extends Component {
   state = {
@@ -24,35 +31,105 @@ class Auth extends Component {
     email: '',
     password: '',
     confirmPassword: '',
-    loading: false
+    loading: false,
+    courseName: 'default'
   };
 
   signin = async () => {
-    console.log(this.state.email.trim().toLowerCase());
-    console.log(this.state.password);
-    this.setState({ loading: true });
-    const login = await axios.post(
-      'https://stackovercampus.herokuapp.com/login',
-      {
+    await this.setState({ loading: true });
+
+    axios
+      .post('https://stackovercampus.herokuapp.com/login', {
         email: this.state.email.trim().toLowerCase(),
         password: this.state.password
-      }
-    );
-    console.log(login.data);
-    this.setState({ loading: false });
+      })
+      .then(response => {
+        console.log(response.data);
+        this.setState({ loading: false });
+        const {
+          userLogoutAction,
+          addEmailInRedux,
+          addUserName,
+          addCourse
+        } = this.props;
+        userLogoutAction(true);
+        addEmailInRedux(this.state.email);
+        addUserName(response.data.name);
+        addCourse(response.data.course);
+        this.props.navigation.navigate('Home');
+      })
+      .catch(error => {
+        Keyboard.dismiss();
+        this.setState({ loading: false });
+        if (error.response) {
+          if (error.response.status == 400) {
+            this.refs.toast.show('Senha incorreta!', 4000, () => {
+              // something you want to do at close
+            });
+          } else {
+            this.refs.toast.show(
+              'Erro interno, contate um Administrador!',
+              4000,
+              () => {
+                // something you want to do at close
+              }
+            );
+          }
+        } else {
+          this.refs.toast.show('Verifique sua conexão!', 4000, () => {
+            // something you want to do at close
+          });
+        }
+      });
+  };
 
-    if (login.data == 'Ok') {
-      const { userLogoutAction } = this.props;
-      await userLogoutAction(true);
-      this.props.navigation.navigate('Home');
+  signup = async () => {
+    console.log(this.state.courseName);
+    this.setState({ loading: true });
+    if (this.state.courseName != 'default') {
+      console.log('Teste');
+      axios
+        .post('https://stackovercampus.herokuapp.com/createUser', {
+          name: this.state.name.trim(),
+          password: this.state.password,
+          email: this.state.email.trim().toLowerCase(),
+          course: this.state.courseName.trim()
+        })
+        .then(response => {
+          console.log(response.data);
+          this.setState({ loading: false });
+          const {
+            userLogoutAction,
+            addEmailInRedux,
+            addUserName,
+            addCourse
+          } = this.props;
+          userLogoutAction(true);
+          addEmailInRedux(this.state.email);
+          addUserName(this.state.name);
+          addCourse(this.state.courseName);
+          this.props.navigation.navigate('Home');
+        })
+        .catch(error => {
+          console.log('Erro!');
+          this.refs.toast.show(
+            'Erro interno, verifique com o admin!',
+            2000,
+            () => {
+              // something you want to do at close
+            }
+          );
+          this.setState({ loading: false });
+          console.log(error);
+        });
     } else {
-      this.refs.toast.show('Senha incorreta!', 2000, () => {
+      await Keyboard.dismiss();
+      this.setState({ loading: false });
+      this.refs.toast.show('Curso não selecionado!', 2000, () => {
         // something you want to do at close
       });
     }
   };
-
-  signup = async () => {};
 
   signinOrSignup = () => {
     if (this.state.stageNew) {
@@ -82,120 +159,115 @@ class Auth extends Component {
       <ImageBackground source={backgroundImage} style={styles.background}>
         <StatusBar
           translucent={true}
-          barStyle="light-content"
-          backgroundColor="transparent"
+          barStyle='light-content'
+          backgroundColor='transparent'
         />
         <Loading status={this.state.loading} />
-        <Text style={styles.title}>Stack Over Campus</Text>
-        <View style={styles.formContainer}>
-          <Text style={styles.subtitle}>
-            {this.state.stageNew ? 'Crie a sua conta' : 'Informe seus dados'}
-          </Text>
-          {this.state.stageNew && (
-            <AuthInput
-              icon="user"
-              placeholder="Nome"
-              style={styles.input}
-              value={this.state.name}
-              onChangeText={name => this.setState({ name })}
-            />
-          )}
-          <AuthInput
-            icon="at"
-            placeholder="E-mail"
-            style={styles.input}
-            value={this.state.email}
-            onChangeText={email => this.setState({ email })}
-          />
-          <AuthInput
-            icon="lock"
-            secureTextEntry={true}
-            placeholder="Senha"
-            style={styles.input}
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-          {this.state.stageNew && (
-            <AuthInput
-              icon="asterisk"
-              secureTextEntry={true}
-              placeholder="Confirme sua senha"
-              style={styles.input}
-              value={this.state.confirmPassword}
-              onChangeText={confirmPassword =>
-                this.setState({ confirmPassword })
-              }
-            />
-          )}
-          {/* <Picker
-            selectedValue={this.state.language}
-            style={{ height: 50, width: '100%', marginTop: 10, marginLeft: 10 }}
-            onValueChange={(itemValue, itemIndex) =>
-              this.setState({ language: itemValue })
-            }
-            prompt="Teste"
-            itemStyle={{ textAlign: 'center' }}
+
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
-            <Picker.Item label="Java" value="java" />
-            <Picker.Item label="JavaScript" value="js" />
-          </Picker> */}
-          <TouchableOpacity
-            disabled={!validaForm}
-            onPress={this.signinOrSignup}
-          >
-            <View
-              style={[
-                styles.button,
-                !validaForm ? { backgroundColor: '#AAA' } : {}
-              ]}
+            <Text style={this.state.stageNew ? styles.titleTwo : styles.title}>
+              Stack Over Campus
+            </Text>
+            <View style={styles.formContainer}>
+              <Text style={styles.subtitle}>
+                {this.state.stageNew
+                  ? 'Crie a sua conta'
+                  : 'Informe seus dados'}
+              </Text>
+              {this.state.stageNew && (
+                <AuthInput
+                  icon='user'
+                  placeholder='Nome'
+                  style={styles.input}
+                  value={this.state.name}
+                  onChangeText={name => this.setState({ name })}
+                />
+              )}
+              <AuthInput
+                icon='at'
+                placeholder='E-mail'
+                style={styles.input}
+                value={this.state.email}
+                onChangeText={email => this.setState({ email: email.trim() })}
+              />
+              <AuthInput
+                icon='lock'
+                secureTextEntry={true}
+                placeholder='Senha'
+                style={styles.input}
+                value={this.state.password}
+                onChangeText={password => this.setState({ password })}
+              />
+              {this.state.stageNew && (
+                <AuthInput
+                  icon='asterisk'
+                  secureTextEntry={true}
+                  placeholder='Confirme sua senha'
+                  style={styles.input}
+                  value={this.state.confirmPassword}
+                  onChangeText={confirmPassword =>
+                    this.setState({ confirmPassword })
+                  }
+                />
+              )}
+
+              {this.state.stageNew && (
+                <Picker
+                  selectedValue={this.state.courseName}
+                  style={{
+                    height: 50,
+                    color: '#FFF',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    textAlign: 'center'
+                  }}
+                  onValueChange={(itemValue, itemIndex) =>
+                    this.setState({ courseName: itemValue })
+                  }
+                  mode='dropdown'
+                >
+                  <Picker.Item label='Escolha seu curso' value='default' />
+                  <Picker.Item label='Sistemas de Informação' value='S.I' />
+                  <Picker.Item label='Licenciatura em Química' value='quim' />
+                  <Picker.Item
+                    label='Ciência e Tecnologia de Alimentos'
+                    value='tecalim'
+                  />
+                </Picker>
+              )}
+
+              <TouchableOpacity
+                disabled={!validaForm}
+                onPress={this.signinOrSignup}
+              >
+                <View
+                  style={[
+                    styles.button,
+                    !validaForm ? { backgroundColor: '#AAA' } : {}
+                  ]}
+                >
+                  <Text style={styles.buttonText}>
+                    {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <TouchableOpacity
+              style={{ padding: 10 }}
+              onPress={() => this.setState({ stageNew: !this.state.stageNew })}
             >
               <Text style={styles.buttonText}>
-                {this.state.stageNew ? 'Registrar' : 'Entrar'}
+                {this.state.stageNew
+                  ? 'Já possui conta ?'
+                  : 'Ainda não possui conta ?'}
               </Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity
-          style={{ padding: 10 }}
-          onPress={() => this.setState({ stageNew: !this.state.stageNew })}
-        >
-          <Text style={styles.buttonText}>
-            {this.state.stageNew
-              ? 'Já possui conta ?'
-              : 'Ainda não possui conta ?'}
-          </Text>
-        </TouchableOpacity>
-
-        {/* <View style={{ width: 220, flexDirection: 'column' }}>
-          <SocialIcon
-            //Social Icon using react-native-elements
-            button
-            //To make a button type Social Icon
-            title="Logar com o Facebook"
-            //Title of Social Button
-            type="facebook"
-            //Type of Social Icon
-            onPress={() => {
-              //Action to perform on press of Social Icon
-              alert('facebook');
-            }}
-          />
-
-          <SocialIcon
-            //Social Icon using react-native-elements
-            button
-            //To make a button type Social Icon
-            title="Logar com o Google"
-            //Title of Social Button
-            type="google"
-            //Type of Social Icon
-            onPress={() => {
-              //Action to perform on press of Social Icon
-              alert('google');
-            }}
-          />
-        </View> */}
-        <Toast ref="toast" />
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+        <Toast ref='toast' />
       </ImageBackground>
     );
   }
@@ -204,15 +276,25 @@ class Auth extends Component {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center'
+    width: '100%'
   },
 
   title: {
     fontFamily: 'Roboto',
     color: '#FFF',
     fontSize: 35,
+    marginBottom: 50,
+    fontWeight: 'bold',
+    textShadowColor: '#000',
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10
+  },
+
+  titleTwo: {
+    fontFamily: 'Roboto',
+    color: '#FFF',
+    fontSize: 35,
+    marginTop: Math.round(Dimensions.get('window').height) * 0.05,
     marginBottom: 50,
     fontWeight: 'bold',
     textShadowColor: '#000',
@@ -258,10 +340,10 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = {
-  userLogoutAction: userLogout
+  userLogoutAction: userLogout,
+  addEmailInRedux: addEmail,
+  addUserName: addName,
+  addCourse: addCourse
 };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(Auth);
+export default connect(null, mapDispatchToProps)(Auth);

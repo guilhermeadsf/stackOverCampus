@@ -1,7 +1,8 @@
 import React from 'react';
+import { withNavigation } from 'react-navigation';
 import { View, TouchableOpacity, Text } from 'react-native';
 
-export default function CardPost(props) {
+function CardPost(props) {
   return (
     <View
       style={{
@@ -13,7 +14,11 @@ export default function CardPost(props) {
         borderRadius: 20
       }}
     >
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          props.navigation.navigate('PostFull', { obj: props.obj })
+        }
+      >
         <View style={{ height: '50%', justifyContent: 'center' }}>
           <Text
             style={{
@@ -44,10 +49,12 @@ export default function CardPost(props) {
               marginBottom: 5
             }}
           >
-            {props.username}
+            {props.description}
           </Text>
         </View>
       </TouchableOpacity>
     </View>
   );
 }
+
+export default withNavigation(CardPost);

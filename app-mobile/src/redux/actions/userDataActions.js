@@ -15,3 +15,30 @@ export const addThemes = state => async dispatch => {
     }
   ]);
 };
+
+export const addEmail = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_EMAIL',
+      payload: state
+    }
+  ]);
+};
+
+export const addName = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_NAME',
+      payload: state
+    }
+  ]);
+};
+
+export const addCourse = state => async dispatch => {
+  await dispatch([
+    {
+      type: 'ADD_COURSE',
+      payload: state
+    }
+  ]);
+};
