@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 import uuidv4 from 'uuid/v4';
 import Loading from '../components/Loading';
@@ -60,26 +60,19 @@ class PostFull extends Component {
     const { post } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <Header title="Postagem" />
+        <Header title='Postagem' typeHeader={1} />
         <Loading status={this.state.loading} />
-        <Container style={{ flex: 1, marginTop: 10, marginHorizontal: 10 }}>
+        <Container style={styles.containerStyle}>
           <Content padder>
-            <Card style={{ flex: 0 }}>
+            <Card>
               <CardItem header bordered style={{ alignSelf: 'center' }}>
-                <Text style={{ fontSize: 20, fontFamily: 'Roboto' }}>
-                  {post.title}
-                </Text>
+                <Text style={styles.titleStyle}>{post.title}</Text>
               </CardItem>
               <CardItem>
                 <Body style={{ alignItems: 'center' }}>
                   <Image
                     source={{ uri: this.state.imageUrl }}
-                    style={{
-                      height: 400,
-                      width: '90%',
-                      flex: 1,
-                      resizeMode: 'contain'
-                    }}
+                    style={styles.imagePostStyle}
                   />
                   <Text style={{ marginTop: 10 }}>{post.description}</Text>
                 </Body>
@@ -104,7 +97,7 @@ class PostFull extends Component {
 
             <Card>
               <CardItem header bordered style={{ alignSelf: 'center' }}>
-                <Text style={{ fontSize: 15, fontFamily: 'Roboto' }}>
+                <Text style={styles.textAddCommentStyle}>
                   Adicionar Comentário
                 </Text>
               </CardItem>
@@ -121,25 +114,10 @@ class PostFull extends Component {
                     />
                   </Form>
                   <TouchableOpacity
-                    style={{
-                      width: '100%',
-                      height: 50,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#000',
-                      marginTop: 10
-                    }}
+                    style={styles.touchableCommentStyle}
                     onPress={this.addComment}
                   >
-                    <Text
-                      style={{
-                        color: '#FFF',
-                        fontFamily: 'Roboto',
-                        fontSize: 15
-                      }}
-                    >
-                      Comentar
-                    </Text>
+                    <Text style={styles.textCommentStyle}>Comentar</Text>
                   </TouchableOpacity>
                 </Content>
               </CardItem>
@@ -151,11 +129,33 @@ class PostFull extends Component {
   }
 }
 
+const styles = StyleSheet.create({
+  textCommentStyle: {
+    color: '#FFF',
+    fontFamily: 'Roboto',
+    fontSize: 15
+  },
+  touchableCommentStyle: {
+    width: '100%',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+    marginTop: 10
+  },
+  textAddCommentStyle: { fontSize: 15, fontFamily: 'Roboto' },
+  containerStyle: { flex: 1, marginTop: 10, marginHorizontal: 10 },
+  titleStyle: { fontSize: 20, fontFamily: 'Roboto' },
+  imagePostStyle: {
+    height: 400,
+    width: '90%',
+    flex: 1,
+    resizeMode: 'contain'
+  }
+});
+
 const mapStateToProps = state => ({
   username: state.UserDataReducer.username
 });
 
-export default connect(
-  mapStateToProps,
-  null
-)(PostFull);
+export default connect(mapStateToProps, null)(PostFull);

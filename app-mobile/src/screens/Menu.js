@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, FlatList, TouchableOpacity, Text } from 'react-native';
-import Theme from '../components/theme';
+import { View, FlatList, StyleSheet } from 'react-native';
+import Theme from '../components/ThemeButton';
 import Header from '../components/Header';
 import MenuOptions from '../components/MenuOptions';
 import commonStyles from '../../commonStyles.js';
@@ -14,9 +14,9 @@ class App extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: commonStyles.backgroundColor }}>
+      <View style={styles.containerStyle}>
         <Header title='Home' />
-        <View style={{ flex: 9, marginTop: 20 }}>
+        <View style={styles.mainView}>
           <MenuOptions temaStatus={0} trabalhoStatus={1} />
           <FlatList
             data={this.props.themes} // Vai vim da API!
@@ -29,6 +29,11 @@ class App extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  containerStyle: { flex: 1, backgroundColor: commonStyles.backgroundColor },
+  mainView: { flex: 9, marginTop: 20 }
+});
 
 const mapStateToProps = state => ({
   userState: state.UserDataReducer.userState,

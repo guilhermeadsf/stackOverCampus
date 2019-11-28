@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, TouchableOpacity, Picker } from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  Picker,
+  StyleSheet
+} from 'react-native';
 import Header from '../components/Header';
 import { Item, Input, Label, Textarea } from 'native-base';
 import DocumentPicker from 'react-native-document-picker';
 var RNFS = require('react-native-fs');
 import axios from 'axios';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 
 initialState = {
@@ -151,12 +158,7 @@ export default class AddDocuments extends Component {
           >
             <Picker
               selectedValue={this.state.type}
-              style={{
-                height: 50,
-                width: '95%',
-                color: '#000',
-                marginVertical: 10
-              }}
+              style={styles.pickerStyle}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ type: itemValue })
               }
@@ -166,21 +168,21 @@ export default class AddDocuments extends Component {
               <Picker.Item label='Trabalho de Conclusão de Curso' value='TCC' />
               <Picker.Item label='Artigo' value='Artigo' />
             </Picker>
-            <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
+            <Item stackedLabel style={styles.itemInputsStyle}>
               <Label style={{ color: '#000' }}>Título do Trabalho</Label>
               <Input
                 onChangeText={value => this.setState({ title: value })}
                 value={this.state.title}
               />
             </Item>
-            <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
+            <Item stackedLabel style={styles.itemInputsStyle}>
               <Label style={{ color: '#000' }}>Orientando</Label>
               <Input
                 onChangeText={value => this.setState({ orientando: value })}
                 value={this.state.orientando}
               />
             </Item>
-            <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
+            <Item stackedLabel style={styles.itemInputsStyle}>
               <Label style={{ color: '#000' }}>Orientador</Label>
               <Input
                 onChangeText={value => this.setState({ orientador: value })}
@@ -197,7 +199,7 @@ export default class AddDocuments extends Component {
               value={this.state.description}
             />
             <View style={{ flexDirection: 'row', width: '90%' }}>
-              <Item rounded style={{ flex: 3, marginTop: 10, marginRight: 3 }}>
+              <Item rounded style={styles.itemUploadStyle}>
                 <Input
                   placeholder='  Nome do arquivo'
                   value={this.state.filename}
@@ -205,43 +207,16 @@ export default class AddDocuments extends Component {
               </Item>
               <TouchableOpacity
                 onPress={this.pickDocument}
-                style={{
-                  flex: 1,
-                  marginTop: 10,
-                  padding: 10,
-                  backgroundColor: '#34495e',
-                  borderRadius: 10,
-                  justifyContent: 'center',
-                  alignItems: 'center'
-                }}
+                style={styles.touchableUploadStyle}
               >
-                <Text
-                  style={{
-                    fontSize: 15,
-                    color: '#FFF'
-                  }}
-                >
-                  Upload
-                </Text>
+                <Text style={styles.textUploadStyle}>Upload</Text>
               </TouchableOpacity>
             </View>
             <TouchableOpacity
-              style={{
-                width: '70%',
-                backgroundColor: '#34495e',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 15,
-                marginVertical: 10,
-                borderRadius: 10
-              }}
+              style={styles.touchableSaveStyle}
               onPress={() => this.save(validaForm)}
             >
-              <Text
-                style={{ fontSize: 15, fontFamily: 'Roboto', color: '#FFF' }}
-              >
-                Salvar
-              </Text>
+              <Text style={styles.textSaveStyle}>Salvar</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -250,3 +225,37 @@ export default class AddDocuments extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  textSaveStyle: { fontSize: 15, fontFamily: 'Roboto', color: '#FFF' },
+  touchableSaveStyle: {
+    width: '70%',
+    backgroundColor: '#34495e',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 10
+  },
+  textUploadStyle: {
+    fontSize: 15,
+    color: '#FFF'
+  },
+  touchableUploadStyle: {
+    flex: 1,
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#34495e',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  itemUploadStyle: { flex: 3, marginTop: 10, marginRight: 3 },
+  itemInputsStyle: { width: '90%', marginVertical: 10 },
+  pickerStyle: {
+    height: 50,
+    width: '95%',
+    color: '#000',
+    marginVertical: 10
+  }
+});

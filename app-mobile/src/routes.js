@@ -12,7 +12,7 @@ import user from '../assets/imgs/user.png';
 import books from '../assets/imgs/stackBooks.png';
 import Menu from './screens/Menu';
 import PostFull from './screens/PostFull';
-import Loading from './screens/Loading';
+import Loading from './screens/LoadingApp';
 import Profile from './screens/Profile';
 import AddDocuments from './screens/AddDocuments';
 import ListOfWorks from './screens/ListOfWorks';
