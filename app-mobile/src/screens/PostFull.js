@@ -60,7 +60,7 @@ class PostFull extends Component {
     const { post } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <Header title='Postagem' />
+        <Header title='Postagem' typeHeader={1} />
         <Loading status={this.state.loading} />
         <Container style={styles.containerStyle}>
           <Content padder>

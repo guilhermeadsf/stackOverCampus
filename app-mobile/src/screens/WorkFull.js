@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
-import { Image, View, TouchableOpacity, Linking } from 'react-native';
+import {
+  Image,
+  View,
+  TouchableOpacity,
+  Linking,
+  StyleSheet
+} from 'react-native';
 import uuidv4 from 'uuid/v4';
 import Loading from '../components/Loading';
 import { Container, Content, Card, CardItem, Text } from 'native-base';
@@ -37,36 +43,26 @@ export default class WorkFull extends Component {
     const { document } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <Header title="Postagem" />
+        <Header title='Postagem' typeHeader={1} />
         <Loading status={this.state.loading} />
-        <Container
-          style={{
-            flex: 1,
-            marginTop: 10,
-            marginHorizontal: 10
-          }}
-        >
+        <Container style={styles.containerStyle}>
           <Content padder>
             <Card style={{ flex: 0 }}>
               <CardItem header bordered style={{ alignSelf: 'center' }}>
-                <Text style={{ fontSize: 20, fontFamily: 'Roboto' }}>
+                <Text style={styles.textTitleAndSubtitleStyle}>
                   {document.titulo}
                 </Text>
               </CardItem>
               <CardItem header bordered style={{ alignSelf: 'center' }}>
-                <Text style={{ fontSize: 20, fontFamily: 'Roboto' }}>
+                <Text style={styles.textTitleAndSubtitleStyle}>
                   {document.descricao}
                 </Text>
               </CardItem>
               <CardItem footer bordered style={{ alignSelf: 'flex-end' }}>
-                <Text style={{ fontWeight: 'bold', fontFamily: 'Roboto' }}>
-                  {document.orientando}
-                </Text>
+                <Text style={styles.textNameStyle}>{document.orientando}</Text>
               </CardItem>
               <CardItem footer bordered style={{ alignSelf: 'flex-end' }}>
-                <Text style={{ fontWeight: 'bold', fontFamily: 'Roboto' }}>
-                  {document.orientador}
-                </Text>
+                <Text style={styles.textNameStyle}>{document.orientador}</Text>
               </CardItem>
             </Card>
 
@@ -74,25 +70,10 @@ export default class WorkFull extends Component {
               <CardItem>
                 <Content padder>
                   <TouchableOpacity
-                    style={{
-                      width: '100%',
-                      height: 50,
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#000',
-                      marginTop: 10
-                    }}
+                    style={styles.touchableDownloadWork}
                     onPress={this.loadInBrowser}
                   >
-                    <Text
-                      style={{
-                        color: '#FFF',
-                        fontFamily: 'Roboto',
-                        fontSize: 15
-                      }}
-                    >
-                      Baixar Trabalho
-                    </Text>
+                    <Text style={styles.textDownloadWork}>Baixar Trabalho</Text>
                   </TouchableOpacity>
                 </Content>
               </CardItem>
@@ -103,3 +84,26 @@ export default class WorkFull extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  textDownloadWork: {
+    color: '#FFF',
+    fontFamily: 'Roboto',
+    fontSize: 15
+  },
+  touchableDownloadWork: {
+    width: '100%',
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#000',
+    marginTop: 10
+  },
+  textNameStyle: { fontWeight: 'bold', fontFamily: 'Roboto' },
+  textTitleAndSubtitleStyle: { fontSize: 20, fontFamily: 'Roboto' },
+  containerStyle: {
+    flex: 1,
+    marginTop: 10,
+    marginHorizontal: 10
+  }
+});

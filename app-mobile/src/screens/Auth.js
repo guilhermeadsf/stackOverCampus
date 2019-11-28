@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 import AuthInput from '../components/Authinput';
 import axios from 'axios';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import backgroundImage from '../../assets/imgs/Background2.png';
 import {
@@ -63,22 +63,16 @@ class Auth extends Component {
         this.setState({ loading: false });
         if (error.response) {
           if (error.response.status == 400) {
-            this.refs.toast.show('Senha incorreta!', 4000, () => {
-              // something you want to do at close
-            });
+            this.refs.toast.show('Senha incorreta!', 4000, () => {});
           } else {
             this.refs.toast.show(
               'Erro interno, contate um Administrador!',
               4000,
-              () => {
-                // something you want to do at close
-              }
+              () => {}
             );
           }
         } else {
-          this.refs.toast.show('Verifique sua conexão!', 4000, () => {
-            // something you want to do at close
-          });
+          this.refs.toast.show('Verifique sua conexão!', 4000, () => {});
         }
       });
   };
@@ -115,9 +109,7 @@ class Auth extends Component {
           this.refs.toast.show(
             'Erro interno, verifique com o admin!',
             2000,
-            () => {
-              // something you want to do at close
-            }
+            () => {}
           );
           this.setState({ loading: false });
           console.log(error);
@@ -125,9 +117,7 @@ class Auth extends Component {
     } else {
       await Keyboard.dismiss();
       this.setState({ loading: false });
-      this.refs.toast.show('Curso não selecionado!', 2000, () => {
-        // something you want to do at close
-      });
+      this.refs.toast.show('Curso não selecionado!', 2000, () => {});
     }
   };
 
@@ -165,9 +155,7 @@ class Auth extends Component {
         <Loading status={this.state.loading} />
 
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-          <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-          >
+          <View style={styles.viewContainer}>
             <Text style={this.state.stageNew ? styles.titleTwo : styles.title}>
               Stack Over Campus
             </Text>
@@ -217,13 +205,7 @@ class Auth extends Component {
               {this.state.stageNew && (
                 <Picker
                   selectedValue={this.state.courseName}
-                  style={{
-                    height: 50,
-                    color: '#FFF',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    textAlign: 'center'
-                  }}
+                  style={styles.pickerStyle}
                   onValueChange={(itemValue, itemIndex) =>
                     this.setState({ courseName: itemValue })
                   }
@@ -336,7 +318,17 @@ const styles = StyleSheet.create({
     textShadowColor: '#000',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10
-  }
+  },
+
+  pickerStyle: {
+    height: 50,
+    color: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  },
+
+  viewContainer: { flex: 1, alignItems: 'center', justifyContent: 'center' }
 });
 
 const mapDispatchToProps = {

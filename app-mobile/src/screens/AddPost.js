@@ -14,7 +14,7 @@ import { connect } from 'react-redux';
 import { Item, Input, Label, Textarea } from 'native-base';
 import Header from '../components/Header';
 import axios from 'axios';
-import Toast, { DURATION } from 'react-native-easy-toast';
+import Toast from 'react-native-easy-toast';
 import Loading from '../components/Loading';
 import ImagePicker from 'react-native-image-picker';
 
@@ -46,7 +46,7 @@ class AddPhoto extends React.Component {
   save = async validaForm => {
     if (validaForm) {
       this.setState({ loading: true });
-      await this.postImageFireBase();
+      if (this.state.image.base64 != '') await this.postImageFireBase();
       await this.insertPost();
       this.setState({
         image: '',
@@ -60,9 +60,7 @@ class AddPhoto extends React.Component {
       this.refs.toast.show(
         'Todos os dados devem estar preenchidos!',
         2000,
-        () => {
-          // something you want to do at close
-        }
+        () => {}
       );
     }
   };
@@ -95,16 +93,12 @@ class AddPhoto extends React.Component {
       })
       .catch(err => {
         console.log(err);
-        this.refs.toast.show('Erro interno!', 2000, () => {
-          // something you want to do at close
-        });
+        this.refs.toast.show('Erro interno!', 2000, () => {});
         this.setState({ loading: false });
       })
       .then(r => {
         console.log(r.data);
-        this.refs.toast.show('Inserido com sucesso!', 2000, () => {
-          // something you want to do at close
-        });
+        this.refs.toast.show('Inserido com sucesso!', 2000, () => {});
       });
   };
 
@@ -114,7 +108,6 @@ class AddPhoto extends React.Component {
     validations.push(this.state.title);
     validations.push(this.state.description);
     validations.push(this.state.pickerTheme && this.state.pickerTheme != 'df');
-    validations.push(this.state.image);
 
     const validaForm = validations.reduce((all, v) => all && v);
 
@@ -124,7 +117,7 @@ class AddPhoto extends React.Component {
         <Loading status={this.state.loading} />
         <ScrollView>
           <View style={styles.container}>
-            <Item stackedLabel style={{ width: '90%', marginVertical: 10 }}>
+            <Item stackedLabel style={styles.itemInputTitle}>
               <Label style={{ color: '#000' }}>Título da Postagem</Label>
               <Input
                 onChangeText={value => this.setState({ title: value })}
@@ -142,14 +135,7 @@ class AddPhoto extends React.Component {
             />
             <Picker
               selectedValue={this.state.pickerTheme}
-              style={{
-                height: 50,
-                width: '90%',
-                color: '#000',
-                alignItems: 'center',
-                justifyContent: 'center',
-                textAlign: 'center'
-              }}
+              style={styles.pickerStyle}
               onValueChange={(itemValue, itemIndex) =>
                 this.setState({ pickerTheme: itemValue })
               }
@@ -158,6 +144,12 @@ class AddPhoto extends React.Component {
               <Picker.Item label='Escolha o tema' value='df' />
               <Picker.Item label='Python' value='Python' />
               <Picker.Item label='Flutter' value='Flutter' />
+              <Picker.Item label='GraphQL' value='GraphQL' />
+              <Picker.Item label='VueJS' value='VueJS' />
+              <Picker.Item label='JavaScript' value='JavaScript' />
+              <Picker.Item label='Java' value='Java' />
+              <Picker.Item label='MongoDB' value='MongoDB' />
+              <Picker.Item label='Outros' value='Outros' />
             </Picker>
             <View style={styles.imageContainer}>
               <Image source={this.state.image} style={styles.image} />
@@ -166,22 +158,10 @@ class AddPhoto extends React.Component {
               <Text style={styles.buttomText}>Escolha a foto</Text>
             </TouchableOpacity>
             <TouchableOpacity
-              style={{
-                width: '70%',
-                backgroundColor: '#34495e',
-                justifyContent: 'center',
-                alignItems: 'center',
-                padding: 15,
-                marginVertical: 10,
-                borderRadius: 10
-              }}
+              style={styles.touchableSaveStyle}
               onPress={() => this.save(validaForm)}
             >
-              <Text
-                style={{ fontSize: 15, fontFamily: 'Roboto', color: '#FFF' }}
-              >
-                Salvar
-              </Text>
+              <Text style={styles.textSaveStyle}>Salvar</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -228,7 +208,26 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: '#AAA'
-  }
+  },
+  textSaveStyle: { fontSize: 15, fontFamily: 'Roboto', color: '#FFF' },
+  touchableSaveStyle: {
+    width: '70%',
+    backgroundColor: '#34495e',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    marginVertical: 10,
+    borderRadius: 10
+  },
+  pickerStyle: {
+    height: 50,
+    width: '90%',
+    color: '#000',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center'
+  },
+  itemInputTitle: { width: '90%', marginVertical: 10 }
 });
 
 const mapStateToProps = state => ({

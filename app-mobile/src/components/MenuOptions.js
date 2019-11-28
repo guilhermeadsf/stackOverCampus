@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -13,21 +13,8 @@ function MenuOptions(props) {
       }}
     >
       {props.temaStatus == 0 && (
-        <TouchableOpacity
-          style={{
-            width: '30%',
-            height: 40,
-            backgroundColor: '#7f8c8d',
-            marginRight: 5,
-            borderRadius: 5,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          disabled={true}
-        >
-          <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}>
-            Temas
-          </Text>
+        <TouchableOpacity style={styles.touchableOptionSelect} disabled={true}>
+          <Text style={styles.titleStyle}>Temas</Text>
         </TouchableOpacity>
       )}
 
@@ -36,24 +23,13 @@ function MenuOptions(props) {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
           colors={['#1abc9c', '#2980b9']}
-          style={{
-            width: '30%',
-            borderRadius: 5,
-            marginRight: 5
-          }}
+          style={styles.linearStyle}
         >
           <TouchableOpacity
-            style={{
-              flex: 1,
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
+            style={styles.touchableOptionNotSelect}
             onPress={() => props.navigation.navigate('Home')}
           >
-            <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}>
-              Temas
-            </Text>
+            <Text style={styles.titleStyle}>Temas</Text>
           </TouchableOpacity>
         </LinearGradient>
       )}
@@ -69,41 +45,45 @@ function MenuOptions(props) {
           }}
         >
           <TouchableOpacity
-            style={{
-              flex: 1,
-              height: 40,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
+            style={styles.touchableOptionNotSelect}
             onPress={() => props.navigation.navigate('ListOfWorks')}
           >
-            <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}>
-              Trabalhos
-            </Text>
+            <Text style={styles.titleStyle}>Trabalhos</Text>
           </TouchableOpacity>
         </LinearGradient>
       )}
 
       {props.trabalhoStatus == 0 && (
-        <TouchableOpacity
-          style={{
-            width: '30%',
-            height: 40,
-            backgroundColor: '#7f8c8d',
-            marginRight: 5,
-            borderRadius: 5,
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}
-          disabled={true}
-        >
-          <Text style={{ color: '#FFF', fontSize: 12, fontFamily: 'Roboto' }}>
-            Trabalhos
-          </Text>
+        <TouchableOpacity style={styles.touchableOptionSelect} disabled={true}>
+          <Text style={styles.titleStyle}>Trabalhos</Text>
         </TouchableOpacity>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  touchableOptionSelect: {
+    width: '30%',
+    height: 40,
+    backgroundColor: '#7f8c8d',
+    marginRight: 5,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  titleStyle: { color: '#FFF', fontSize: 12, fontFamily: 'Roboto' },
+  linearStyle: {
+    width: '30%',
+    borderRadius: 5,
+    marginRight: 5
+  },
+  touchableOptionNotSelect: {
+    flex: 1,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
 
 export default withNavigation(MenuOptions);
